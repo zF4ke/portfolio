@@ -23,8 +23,9 @@ const Player = (props) => {
   }
 
   useEffect(() => {
-    const shuffledArray = shuffleArray(props.songs);
-    setSongList(shuffledArray);
+    const array = shuffleArray(props.songs);
+
+    setSongList(array);
   }, [props.songs]);
 
   const playSong = () => {
