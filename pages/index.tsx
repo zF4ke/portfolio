@@ -72,7 +72,7 @@ const Home = (props: props) => {
       </Head>
 
       <div>
-        <header className="relative max-w-lg space-y-8 md:max-w-[38rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
+        <main className="relative max-w-lg space-y-8 md:max-w-[38rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
           <div className="fixed top-25 right-0 absolute">
             {renderThemeChanger()}
           </div>
@@ -110,15 +110,11 @@ const Home = (props: props) => {
               <SkillsBox />
             </div>
           </div>
-<<<<<<< HEAD
 
           <div className="flex justify-center">
             <Player songs={props?.songs} />
           </div>
         </main>
-=======
-        </header>
->>>>>>> parent of c542672 (starting player component)
         <footer className="text-center mt-16 font-mono text-zinc-500">
           &copy; zF4ke {new Date().getFullYear()}
         </footer>
