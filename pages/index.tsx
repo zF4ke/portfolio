@@ -10,6 +10,7 @@ import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import Emoji from "../components/Emoji";
 import Box from "../components/Box";
 import SkillsBox from "../components/SkillsBox";
+import Player from "../components/Player";
 
 const Home: NextPage = () => {
   const { systemTheme, theme, setTheme } = useTheme();
@@ -45,7 +46,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="pattern flex justify-center h-screen bg-zinc-100 dark:bg-dark-blurple p-16 md:p-24 lg:p-36 transition-colors duration-300">
+    <div className="pattern flex justify-center h-screen bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
       <Head>
         <title>Portfolio</title>
         <meta name="description" content="My Portfolio" />
@@ -53,12 +54,12 @@ const Home: NextPage = () => {
       </Head>
 
       <div>
-        <header className="relative max-w-lg space-y-8 md:max-w-[38rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
+        <main className="relative max-w-lg space-y-8 md:max-w-[40rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
           <div className="fixed top-25 right-0 absolute">
             {renderThemeChanger()}
           </div>
 
-          <div className="space-y-5 lg:space-y-10 text-center">
+          <header className="space-y-5 lg:space-y-10 text-center">
             <h1 className="text-base md:text-xl lg:text-2xl ">
               Hey there! <Emoji symbol="👋" />
             </h1>
@@ -75,9 +76,9 @@ const Home: NextPage = () => {
               , a {age} y&apos;o Student and Full Stack Developer{" "}
               <Emoji symbol="👨‍💻" />
             </h2>
-          </div>
+          </header>
 
-          <div className="space-y-5 md:space-y-7 lg:space-y-8 justify-center">
+          <div className="space-y-5 md:space-y-7 lg:space-y-8">
             <div className="flex flex-col justify-center items-center space-y-5 sm:space-y-0 sm:flex-row sm:space-x-5 md:space-x-7 lg:space-x-8">
               <Box name="Who Am I" description="A couple things about me." />
               <Box
@@ -91,7 +92,11 @@ const Home: NextPage = () => {
               <SkillsBox />
             </div>
           </div>
-        </header>
+
+          <div className="flex justify-center">
+            <Player />
+          </div>
+        </main>
         <footer className="text-center mt-16 font-mono text-zinc-500">
           &copy; zF4ke {new Date().getFullYear()}
         </footer>
