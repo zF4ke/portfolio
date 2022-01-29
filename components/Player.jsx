@@ -85,7 +85,7 @@ const Player = (props) => {
 
   return (
     <div>
-      <audio ref={audioPlayerRef} src=""></audio>
+      <audio ref={audioPlayerRef} src="" onEnded={playNextSong}></audio>
 
       <div className="flex justify-center items-center space-x-2">
         <RewindIcon
