@@ -14,7 +14,6 @@ import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import Emoji from "../components/Emoji";
 import Box from "../components/Box";
 import SkillsBox from "../components/SkillsBox";
-import Player from "../components/Player";
 
 export const getStaticProps: GetStaticProps = async () => {
   const songsDirectory = path.join(process.cwd(), "public/musics");
@@ -73,12 +72,12 @@ const Home = (props: props) => {
       </Head>
 
       <div>
-        <main className="relative max-w-lg space-y-8 md:max-w-[40rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
+        <header className="relative max-w-lg space-y-8 md:max-w-[38rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
           <div className="fixed top-25 right-0 absolute">
             {renderThemeChanger()}
           </div>
 
-          <header className="space-y-5 lg:space-y-10 text-center">
+          <div className="space-y-5 lg:space-y-10 text-center">
             <h1 className="text-base md:text-xl lg:text-2xl ">
               Hey there! <Emoji symbol="👋" />
             </h1>
@@ -95,9 +94,9 @@ const Home = (props: props) => {
               , a {age} y&apos;o Student and Full Stack Developer{" "}
               <Emoji symbol="👨‍💻" />
             </h2>
-          </header>
+          </div>
 
-          <div className="space-y-5 md:space-y-7 lg:space-y-8">
+          <div className="space-y-5 md:space-y-7 lg:space-y-8 justify-center">
             <div className="flex flex-col justify-center items-center space-y-5 sm:space-y-0 sm:flex-row sm:space-x-5 md:space-x-7 lg:space-x-8">
               <Box name="Who Am I" description="A couple things about me." />
               <Box
@@ -111,11 +110,15 @@ const Home = (props: props) => {
               <SkillsBox />
             </div>
           </div>
+<<<<<<< HEAD
 
           <div className="flex justify-center">
             <Player songs={props?.songs} />
           </div>
         </main>
+=======
+        </header>
+>>>>>>> parent of c542672 (starting player component)
         <footer className="text-center mt-16 font-mono text-zinc-500">
           &copy; zF4ke {new Date().getFullYear()}
         </footer>
