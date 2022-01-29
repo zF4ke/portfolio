@@ -1,10 +1,6 @@
-import fs from "fs";
-import path from "path";
-
 import type { NextPage } from "next";
-import { GetStaticProps } from "next";
 import { useTheme } from "next-themes";
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect } from "react";
 
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
@@ -15,22 +11,7 @@ import Emoji from "../components/Emoji";
 import Box from "../components/Box";
 import SkillsBox from "../components/SkillsBox";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const songsDirectory = path.join(process.cwd(), "public/musics");
-  const songs = fs.readdirSync(songsDirectory);
-
-  return {
-    props: {
-      songs,
-    },
-  };
-};
-
-type props = {
-  songs: Array<String>;
-};
-
-const Home = (props: props) => {
+const Home: NextPage = () => {
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const age = 17;
@@ -64,7 +45,7 @@ const Home = (props: props) => {
   };
 
   return (
-    <div className="pattern flex justify-center h-full bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
+    <div className="pattern flex justify-center h-screen bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
       <Head>
         <title>Portfolio</title>
         <meta name="description" content="My Portfolio" />
@@ -111,9 +92,7 @@ const Home = (props: props) => {
             </div>
           </div>
 
-          <div className="flex justify-center">
-            <Player songs={props?.songs} />
-          </div>
+          <div className="flex justify-center">{/* <Player /> */}</div>
         </main>
         <footer className="text-center mt-16 font-mono text-zinc-500">
           &copy; zF4ke {new Date().getFullYear()}
