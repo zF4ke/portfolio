@@ -65,7 +65,7 @@ const Home = (props: props) => {
   };
 
   return (
-    <div className="pattern flex justify-center h-full bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
+    <div className="pattern flex justify-center min-h-screen h-full bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
       <Head>
         <title>Portfolio</title>
         <meta name="description" content="My Portfolio" />

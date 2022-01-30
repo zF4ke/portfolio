@@ -11,9 +11,13 @@ import { useEffect, useRef, useState } from "react";
 
 const Player = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
+
   const [currentSong, setCurrentSong] = useState(null);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [songList, setSongList] = useState([]);
+
+  const [currentTime, setCurrentTime] = useState(null);
+
   const audioPlayerRef = useRef();
 
   function shuffleArray(array) {
@@ -83,11 +87,20 @@ const Player = (props) => {
     setIsPlaying(false);
   };
 
-  return (
-    <div>
-      <audio ref={audioPlayerRef} src="" onEnded={playNextSong}></audio>
+  const updateSeekBar = () => {
+    const time =
+      (audioPlayerRef.current.currentTime / audioPlayerRef.current.duration) *
+      100;
 
+    console.log(time);
+
+    setCurrentTime(time);
+  };
+
+  return (
+    <div className="flex flex-col justify-center">
       <div className="flex justify-center items-center space-x-2">
+        <VolumeDownIcon className="player-volume-button stroke-purple" />
         <RewindIcon
           className="player-button fill-purple"
           onClick={() => playPreviousSong()}
@@ -107,9 +120,25 @@ const Player = (props) => {
           className="player-button fill-purple"
           onClick={() => playNextSong()}
         />
+        <VolumeUpIcon className="player-volume-button fill-purple" />
       </div>
-      <p className="mt-4 text-center text-dark-purple font-jetbrains">
-        {currentSongIndex} • {currentSong}
+
+      <audio
+        ref={audioPlayerRef}
+        src=""
+        onTimeUpdate={updateSeekBar}
+        onEnded={playNextSong}
+      ></audio>
+      <div className="w-56 mt-2 bg-gray-200 rounded-full h-1.5 dark:bg-gray-800">
+        <div
+          className=" bg-purple brightness-150 dark:brightness-50 h-1.5 rounded-full"
+          style={{ width: currentTime + "%" }}
+        ></div>
+      </div>
+
+      <p className="mt-2 text-center text-dark-purple font-jetbrains">
+        {/* {currentSongIndex} •  */}
+        {currentSong}
       </p>
     </div>
   );

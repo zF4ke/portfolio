@@ -11,6 +11,11 @@ body {
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+}
+
+::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 a {
@@ -62,15 +67,11 @@ a {
   }
 }
 
-.player-main {
-  /* display: none; */
-}
-
 @layer components {
   .player-button {
     @apply h-10 w-10 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;
   }
-  /* .player-play {
-    @apply border-purple rounded-full border-4;
-  } */
+  .player-volume-button {
+    @apply h-5 w-5 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;
+  }
 }
