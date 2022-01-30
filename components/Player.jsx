@@ -87,6 +87,16 @@ const Player = (props) => {
     setIsPlaying(false);
   };
 
+  const decreaseVolume = () => {
+    if (audioPlayerRef.current.volume >= 0.2)
+      audioPlayerRef.current.volume -= 0.2;
+  };
+
+  const increaseVolume = () => {
+    if (audioPlayerRef.current.volume <= 0.8)
+      audioPlayerRef.current.volume += 0.2;
+  };
+
   const updateSeekBar = () => {
     const time =
       (audioPlayerRef.current.currentTime / audioPlayerRef.current.duration) *
@@ -98,9 +108,12 @@ const Player = (props) => {
   };
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center items-center">
       <div className="flex justify-center items-center space-x-2">
-        <VolumeDownIcon className="player-volume-button stroke-purple" />
+        <VolumeDownIcon
+          className="player-volume-button stroke-purple"
+          onClick={decreaseVolume}
+        />
         <RewindIcon
           className="player-button fill-purple"
           onClick={() => playPreviousSong()}
@@ -120,7 +133,10 @@ const Player = (props) => {
           className="player-button fill-purple"
           onClick={() => playNextSong()}
         />
-        <VolumeUpIcon className="player-volume-button fill-purple" />
+        <VolumeUpIcon
+          className="player-volume-button fill-purple"
+          onClick={increaseVolume}
+        />
       </div>
 
       <audio
@@ -129,7 +145,13 @@ const Player = (props) => {
         onTimeUpdate={updateSeekBar}
         onEnded={playNextSong}
       ></audio>
-      <div className="w-56 mt-2 bg-gray-200 rounded-full h-1.5 dark:bg-gray-800">
+
+      <div
+        className={
+          "w-56 mt-2 bg-gray-200 rounded-full h-1.5 transition-all duration-150 ease-out dark:bg-gray-800 " +
+          (currentTime != null && isPlaying ? "opacity-100" : "opacity-0")
+        }
+      >
         <div
           className=" bg-purple brightness-150 dark:brightness-50 h-1.5 rounded-full"
           style={{ width: currentTime + "%" }}
