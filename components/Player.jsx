@@ -102,8 +102,6 @@ const Player = (props) => {
       (audioPlayerRef.current.currentTime / audioPlayerRef.current.duration) *
       100;
 
-    console.log(time);
-
     setCurrentTime(time);
   };
 

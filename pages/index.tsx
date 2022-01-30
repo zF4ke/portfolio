@@ -6,6 +6,7 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import Main from "../components/Main";
 import Section from "../components/Section";
+import { useRef } from "react";
 
 export const getStaticProps: GetStaticProps = async () => {
   const songsDirectory = path.join(process.cwd(), "public/musics");
@@ -23,6 +24,10 @@ type props = {
 };
 
 const Home = (props: props) => {
+  const whoAmISectionRef = useRef(null);
+  const projectsSectionRef = useRef(null);
+  const contactSectionRef = useRef(null);
+
   return (
     <div className="pattern flex flex-col justify-center items-center min-h-screen h-full bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
       <Head>
@@ -31,10 +36,15 @@ const Home = (props: props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Main songs={props?.songs} />
+      <Main
+        songs={props?.songs}
+        whoAmISectionRef={whoAmISectionRef}
+        projectsSectionRef={projectsSectionRef}
+        contactSectionRef={contactSectionRef}
+      />
 
       <Section title={"Who Am I"}>
-        <p>Test</p>
+        <p ref={whoAmISectionRef}>Test</p>
         <br />
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -65,7 +75,7 @@ const Home = (props: props) => {
       </Section>
 
       <Section title={"Projects"}>
-        <p>Oh, Hi my name is Jeniffer</p>
+        <p ref={projectsSectionRef}>Oh, Hi my name is Jeniffer</p>
         <br />
         <p>
           Voluptate est consectetur deserunt cillum. Minim nostrud reprehenderit
@@ -86,7 +96,7 @@ const Home = (props: props) => {
       </Section>
 
       <Section title={"Contact"}>
-        <p>O.o o.o o.O</p>
+        <p ref={contactSectionRef}>O.o o.o o.O</p>
         <br />
         <p>
           Aliquip adipisicing consequat aliquip anim irure nostrud veniam ipsum

@@ -69,12 +69,21 @@ const Main = (props) => {
 
       <div className="space-y-5 md:space-y-7 lg:space-y-8">
         <div className="flex flex-col justify-center items-center space-y-5 sm:space-y-0 sm:flex-row sm:space-x-5 md:space-x-7 lg:space-x-8">
-          <Box name="Who Am I" description="A couple things about me." />
+          <Box
+            name="Who Am I"
+            description="A couple things about me."
+            onClickRef={props.whoAmISectionRef}
+          />
           <Box
             name="Projects"
             description="All my github public repositories and more."
+            onClickRef={props.projectsSectionRef}
           />
-          <Box name="Contact" description="Get in touch with me!" />
+          <Box
+            name="Contact"
+            description="Get in touch with me!"
+            onClickRef={props.contactSectionRef}
+          />
         </div>
 
         <div className="flex justify-center">
