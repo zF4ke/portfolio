@@ -43,8 +43,8 @@ const Main = (props) => {
   };
 
   return (
-    <main className="relative max-w-lg space-y-8 mt-8 md:max-w-[40rem] md:mt-12 md:space-y-12 lg:mt-16 lg:max-w-3xl lg:space-y-16 ">
-      <div className="fixed top-25 right-0 absolute">
+    <main className="relative max-w-lg space-y-8 md:max-w-[40rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
+      <div className="fixed top-10 right-0 absolute">
         {renderThemeChanger()}
       </div>
 
