@@ -57,8 +57,8 @@ const Home = (props: props) => {
           </p>
           <br />
           <p>
-            When I&apos;m not coding in my bedroom I&apos;m probably watching a
-            movie or just sleeping :)
+            When I&apos;m not coding in my bedroom I&apos;m probably listening
+            to music, watching a movie or just sleeping :)
           </p>
         </div>
       </Section>
@@ -113,6 +113,7 @@ const Home = (props: props) => {
             <li>github: @zf4ke</li>
             <li>youtube: zFake</li>
             <li>linkedin: @zf4ke</li>
+            <li>discord: zF4ke#8556</li>
             <li>twitter: @zF4ked</li>
             <li>instagram: @zF4ked</li>
           </ul>
