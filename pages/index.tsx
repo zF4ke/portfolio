@@ -8,20 +8,44 @@ import { useRef } from "react";
 import Main from "../components/Main";
 import Section from "../components/Section";
 import Emoji from "../components/Emoji";
+import SocialNetwork from "../components/SocialNetwork";
+import Repo from "../components/Repo";
+
+import { VscGithub, VscTwitter } from "react-icons/vsc";
+import { ImYoutube } from "react-icons/im";
+import { FaLinkedinIn } from "react-icons/fa";
+import { SiDiscord } from "react-icons/si";
+import { RiInstagramLine } from "react-icons/ri";
 
 export const getStaticProps: GetStaticProps = async () => {
   const songsDirectory = path.join(process.cwd(), "public/musics");
   const songs = fs.readdirSync(songsDirectory);
 
+  const reposRes = await fetch("https://api.github.com/users/zf4ke/repos");
+  const repos = await reposRes.json();
+
+  repos.sort((a, b) => b.stargazers_count - a.stargazers_count);
+
   return {
     props: {
       songs,
+      repos,
     },
   };
 };
 
 type props = {
   songs: Array<String>;
+  repos: Array<any>;
+};
+
+const handleClickScroll = (ref) => {
+  if (!ref || ref.current == null) return;
+
+  ref.current.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
 };
 
 const Home = (props: props) => {
@@ -49,16 +73,22 @@ const Home = (props: props) => {
           <p>zf4ke@archlinux</p>
           <br />
           <p>
-            Hey! My name is <strong>Pedro Silva</strong>, I&apos;m 17 years old,
-            I&apos;m Portuguese <Emoji symbol="🇵🇹" /> and I&apos;m currently in
-            my last year of high school. I started coding since I was 11 years
-            old and I&apos;m particularly interested in Web Development and
-            Cyber Security.
+            <strong>Hey!</strong> My name is{" "}
+            <strong
+              className="text-violet-500 cursor-pointer link link-underline link-underline-violet-500"
+              onClick={() => handleClickScroll(contactSectionRef)}
+            >
+              Pedro Silva
+            </strong>
+            , I&apos;m 17 years old, I&apos;m Portuguese <Emoji symbol="🇵🇹" />{" "}
+            and I&apos;m currently in my last year of high school. I started
+            coding since I was 11 years old and I&apos;m particularly interested
+            in Web Development and Cyber Security.
           </p>
           <br />
           <p>
-            When I&apos;m not coding in my bedroom I&apos;m probably listening
-            to music, watching a movie or just sleeping :)
+            When I&apos;m not coding I&apos;m probably listening to music,
+            watching a movie or just sleeping :)
           </p>
         </div>
       </Section>
@@ -86,22 +116,15 @@ const Home = (props: props) => {
         <div ref={projectsSectionRef}>
           <p>{"{ github.com/zf4ke }"}</p>
           <br />
-          <p>
-            In progress... voluptate est consectetur deserunt cillum. Minim
-            nostrud reprehenderit voluptate sit tempor qui. Non labore eiusmod
-            sunt pariatur anim cillum ipsum veniam esse. Lorem id dolore in enim
-            esse veniam qui sint irure elit sint.
-          </p>
-          <br />
-          <p>
-            Sit exercitation nisi quis dolor deserunt reprehenderit. Fugiat duis
-            proident commodo aute veniam. Eiusmod est quis sunt ex proident
-            cillum consectetur sunt minim. Non qui elit velit est velit in
-            exercitation. Do Lorem in minim laboris amet. Reprehenderit do velit
-            ut Lorem nulla in non officia quis veniam. Consectetur sint
-            excepteur minim in dolore laborum. Amet veniam cupidatat amet do in
-            eu nulla ut. Consequat nostrud consectetur ullamco exercitation.
-          </p>
+          <div className="flex max-h-[660px] overflow-auto">
+            <div className="space-y-7">
+              {props?.repos &&
+                props?.repos.map((r) => {
+                  if (!r.fork && r.name != "zF4ke") return <Repo repo={r} />;
+                })}
+            </div>
+            <div className="w-6"></div>
+          </div>
         </div>
       </Section>
 
@@ -109,19 +132,59 @@ const Home = (props: props) => {
         <div ref={contactSectionRef}>
           <p>O.o ~ o.o ~ o.O</p>
           <br />
-          <ul>
-            <li>github: @zf4ke</li>
-            <li>youtube: zFake</li>
-            <li>linkedin: @zf4ke</li>
-            <li>discord: zF4ke#8556</li>
-            <li>twitter: @zF4ked</li>
-            <li>instagram: @zF4ked</li>
+          <ul className="space-y-1.5">
+            <SocialNetwork
+              name="Github"
+              url="//github.com/zf4ke"
+              username="@zf4ke"
+              Icon={VscGithub}
+            />
+
+            <SocialNetwork
+              name="Youtube"
+              url="//youtube.com/c/zFake/"
+              username="zFake"
+              Icon={ImYoutube}
+            />
+
+            <SocialNetwork
+              name="LinkedIn"
+              url="//linkedin.com/in/zf4ke"
+              username="@zf4ke"
+              Icon={FaLinkedinIn}
+            />
+
+            <SocialNetwork
+              name="Discord"
+              url="//discord.com/users/676156690395037713/"
+              username="zF4ke#8556"
+              Icon={SiDiscord}
+            />
+
+            <SocialNetwork
+              name="Twitter"
+              url="//twitter.com/zF4ked"
+              username="@zF4ked"
+              Icon={VscTwitter}
+            />
+
+            <SocialNetwork
+              name="Instagram"
+              url="//instagram.com/zf4ked/"
+              username="@zF4ked"
+              Icon={RiInstagramLine}
+            />
           </ul>
           <p>...</p>
           <br />
-          <button className="bg-violet-500 hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700 transitions-all duration-100 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white">
-            Click Me!
-          </button>
+          <a
+            href="mailto:pedrohsilva955@gmail.com"
+            target="_blank"
+            rel="noreferrer"
+            className="bg-violet-500 hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700 transitions-all duration-100 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white"
+          >
+            Email Me!
+          </a>
         </div>
       </Section>
 
