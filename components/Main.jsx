@@ -43,14 +43,17 @@ const Main = (props) => {
   };
 
   return (
-    <main className="relative max-w-lg space-y-8 md:max-w-[40rem] md:space-y-12 lg:max-w-3xl lg:space-y-16 ">
+    <main className="relative max-w-lg space-y-8 md:max-w-[40rem] md:space-y-12 lg:max-w-3xl lg:space-y-16">
       <div className="fixed top-10 right-0 absolute">
         {renderThemeChanger()}
       </div>
 
       <header className="space-y-5 lg:space-y-10 text-center">
         <h1 className="text-base md:text-xl lg:text-2xl ">
-          Hey there! <Emoji symbol="👋" />
+          Hey there!{" "}
+          <span className="animate-pulse">
+            <Emoji symbol="👋" />
+          </span>
         </h1>
         <h2 className="text-lg md:text-2xl lg:text-3xl font-mono">
           I&apos;m <strong>Pedro Silva</strong>,{" "}

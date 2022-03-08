@@ -54,7 +54,7 @@ const Home = (props: props) => {
   const contactSectionRef = useRef(null);
 
   return (
-    <div className="pattern flex flex-col justify-center items-center min-h-screen h-full bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
+    <div className="pattern cursor-default flex flex-col justify-center items-center min-h-screen h-full bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
       <Head>
         <title>Portfolio</title>
         <meta name="description" content="My Portfolio" />
@@ -93,7 +93,7 @@ const Home = (props: props) => {
         </div>
       </Section>
 
-      <Section title={"Skills"}>
+      {/* <Section title={"Skills"}>
         <div>
           <p>[...in progress]</p>
           <br />
@@ -110,7 +110,7 @@ const Home = (props: props) => {
             consequat.
           </p>
         </div>
-      </Section>
+      </Section> */}
 
       <Section title={"Projects"}>
         <div ref={projectsSectionRef}>

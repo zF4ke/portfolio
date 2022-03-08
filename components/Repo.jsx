@@ -9,16 +9,17 @@ const Repo = ({ repo }) => {
       <h5 className="flex items-center path-purple">
         {repo.homepage && <IoIosRocket className="mr-2 fill-violet-600" />}
         <a
+          key={repo.id}
           href={repo.svn_url}
           target="_blank"
           rel="noreferrer"
-          className="text-violet-400 hover:opacity-75 transition-all duration-150"
+          className="text-violet-900 dark:text-violet-400 hover:opacity-75 transition-all duration-150"
         >
           {repo.name}
         </a>
       </h5>
 
-      <p className="text-violet-300 text-sm md:text-md lg:text-lg">
+      <p className="text-violet-800 dark:text-violet-300 text-sm md:text-md lg:text-lg">
         {repo.description ? repo.description : "Sem descrição."}
       </p>
 
