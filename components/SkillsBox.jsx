@@ -4,10 +4,11 @@ import htmlIcon from "../public/images/icons/html.svg";
 import cssIcon from "../public/images/icons/css.svg";
 import javascriptIcon from "../public/images/icons/javascript.svg";
 import typescriptIcon from "../public/images/icons/typescript.svg";
+import pythonIcon from "../public/images/icons/python.svg";
 import reactIcon from "../public/images/icons/react.svg";
 import mongodbIcon from "../public/images/icons/mongodb.svg";
 import firebaseIcon from "../public/images/icons/firebase.svg";
-import nextjsIcon from "../public/images/icons/nextjs.svg";
+//import nextjsIcon from "../public/images/icons/nextjs.svg";
 
 const Skill = ({ icon, name, url }) => {
   return (
@@ -25,7 +26,7 @@ const Skill = ({ icon, name, url }) => {
 const SkillsBox = (props) => {
   return (
     <div className="flex flex-col rounded-md w-3/4 max-w-xs h-[8.5rem] p-4 border-2 sm:w-full sm:max-w-none md:h-[9.5rem] md:p-4 md:border-2 lg:h-40 lg:p-4 lg:border-2 border-purple items-center justify-center bg-slate-50 dark:bg-dark-blurple">
-      <div className="text-center ">
+      <div className="text-center max-w-[200px] sm:max-w-none">
         <p className="font-mono text-md md:text-xl dark:text-gray-400">
           Skills
         </p>
@@ -42,6 +43,7 @@ const SkillsBox = (props) => {
             name="TypeScript"
             url="//www.typescriptlang.org//"
           />
+          <Skill icon={pythonIcon} name="Python" url="//www.python.org/" />
           <Skill icon={reactIcon} name="React" url="//reactjs.org/" />
           <Skill icon={mongodbIcon} name="MongoDB" url="//www.mongodb.com/" />
           <Skill
