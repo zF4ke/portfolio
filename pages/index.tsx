@@ -116,7 +116,7 @@ const Home = (props: props) => {
         <div ref={projectsSectionRef}>
           <p>{"{ github.com/zf4ke }"}</p>
           <br />
-          <div className="max-h-[660px] overflow-y-visible">
+          <div className="flex max-h-[660px] overflow-auto">
             <div className="space-y-7">
               {props?.repos &&
                 props?.repos.map((r) => {
