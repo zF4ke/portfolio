@@ -116,11 +116,12 @@ const Home = (props: props) => {
         <div ref={projectsSectionRef}>
           <p>{"{ github.com/zf4ke }"}</p>
           <br />
-          <div className="flex max-h-[660px] overflow-auto">
+          <div className="max-h-[660px] overflow-y-visible">
             <div className="space-y-7">
               {props?.repos &&
                 props?.repos.map((r) => {
-                  if (!r.fork && r.name != "zF4ke") return <Repo repo={r} />;
+                  if (!r.fork && r.name != "zF4ke")
+                    return <Repo key={r.id.toString()} repo={r} />;
                 })}
             </div>
             <div className="w-6"></div>

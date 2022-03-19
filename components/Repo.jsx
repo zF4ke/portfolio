@@ -2,14 +2,10 @@ import { IoIosRocket } from "react-icons/io";
 
 const Repo = ({ repo }) => {
   return (
-    <div
-      key={repo.id}
-      className="border-2 rounded-md border-solid border-violet-500 p-4 space-y-2"
-    >
+    <div className="border-2 rounded-md border-solid border-violet-500 p-4 space-y-2">
       <h5 className="flex items-center path-purple">
         {repo.homepage && <IoIosRocket className="mr-2 fill-violet-600" />}
         <a
-          key={repo.id}
           href={repo.svn_url}
           target="_blank"
           rel="noreferrer"
