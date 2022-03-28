@@ -31,6 +31,7 @@ export const getStaticProps: GetStaticProps = async () => {
       songs,
       repos,
     },
+    revalidate: 3600,
   };
 };
 
