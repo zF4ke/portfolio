@@ -49,6 +49,18 @@ const handleClickScroll = (ref) => {
   });
 };
 
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+const myAge = getAge("2004/10/07").toString();
+
 const Home = (props: props) => {
   const whoAmISectionRef = useRef(null);
   const projectsSectionRef = useRef(null);
@@ -81,10 +93,10 @@ const Home = (props: props) => {
             >
               Pedro Silva
             </strong>
-            , I&apos;m 17 years old, I&apos;m Portuguese <Emoji symbol="🇵🇹" />{" "}
-            and I&apos;m currently in my last year of high school. I started
-            coding since I was 11 years old and I&apos;m particularly interested
-            in Web Development and Cyber Security.
+            , I&apos;m {myAge} years old and I&apos;m Portuguese{" "}
+            <Emoji symbol="🇵🇹" />. I started coding since I was 11 years old and
+            I&apos;m particularly interested in Web Development and Cyber
+            Security.
           </p>
           <br />
           <p>
