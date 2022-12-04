@@ -8,8 +8,19 @@ import { useState, useEffect } from "react";
 
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
 const Main = (props) => {
-  const age = 17;
+  const age = getAge("2004/10/07").toString();
 
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
