@@ -95,14 +95,14 @@ const Home = (props: props) => {
             </strong>
             , I&apos;m {myAge} years old and I&apos;m Portuguese{" "}
             <Emoji symbol="🇵🇹" />. I started coding since I was 11 years old and
-            I&apos;m particularly interested in Web Development and Cyber
-            Security.
+            I&apos;m particularly interested in Artificial Intelligence and Web Development.
           </p>
           <br />
-          <p>
-            When I&apos;m not coding I&apos;m probably listening to music,
-            watching a movie or just sleeping :)
-          </p>
+          <p>Currently, I am pursuing a degree in Computer Science at FCUL (Faculdade de Ciências da Universidade de Lisboa). I am also passionate about exploring new opportunities to apply my skills and knowledge. One of my favorite experiences so far has been participating in CanSat, where I helped create a microsatellite. This experience has taught me valuable skills in teamwork, project management, and problem-solving.</p>
+          
+          <p>In my free time, I like to share my knowledge and learn new things through my <a href="//youtube.com/c/zFake/" target="_blank" rel="noreferrer" className="text-violet-500 cursor-pointer link link-underline link-underline-violet-500">YouTube channel</a>, where I teach coding and science to others, as well as solving riddles and puzzles. This helps keep my mind sharp and allows me to approach problems from different angles.</p>
+
+          <p>In addition to my academic pursuits, I am also studying Artificial Intelligence on my own. I have a curious mind and I am always eager to learn new concepts and technologies.</p>
         </div>
       </Section>
 
