@@ -76,7 +76,7 @@ const Main = (props) => {
           >
             aka zF4ke
           </a>
-          , a {age} y&apos;o Computer Science Student and AI Aspirant{" "}
+          , an {age} y&apos;o Computer Science Student and AI Aspirant{" "}
           <Emoji symbol="👨‍💻" />
         </h2>
       </header>
