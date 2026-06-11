@@ -160,15 +160,14 @@ const Home = (props: props) => {
           </ul>
           <br />
           <p>
-            Describe your job in two sentences and you&apos;ll get a quote and
-            a delivery date —{" "}
+            Describe your job in two sentences and you&apos;ll get a{" "}
             <strong
               className="text-violet-500 cursor-pointer link link-underline link-underline-violet-500"
               onClick={() => handleClickScroll(contactSectionRef)}
             >
-              usually within the hour
+              quote and a delivery date
             </strong>
-            .
+            , usually the same day.
           </p>
         </div>
       </Section>
