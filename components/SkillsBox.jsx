@@ -8,7 +8,7 @@ import pythonIcon from "../public/images/icons/python.svg";
 import reactIcon from "../public/images/icons/react.svg";
 import mongodbIcon from "../public/images/icons/mongodb.svg";
 import firebaseIcon from "../public/images/icons/firebase.svg";
-//import nextjsIcon from "../public/images/icons/nextjs.svg";
+import gitIcon from "../public/images/icons/git.svg";
 
 const Skill = ({ icon, name, url }) => {
   return (
@@ -18,7 +18,7 @@ const Skill = ({ icon, name, url }) => {
       rel="noreferrer"
       className="hover:scale-110 transition duration-300 w-5 h-5 sm:w-7 sm:h-7 md:w-10 md:h-10 lg:w-12 lg:h-12"
     >
-      <Image src={icon} alt={name} />
+      <Image src={icon} alt={name} className="w-full h-full" />
     </a>
   );
 };
@@ -51,6 +51,7 @@ const SkillsBox = (props) => {
             name="Firebase"
             url="//firebase.google.com/"
           />
+          <Skill icon={gitIcon} name="Git" url="//git-scm.com/" />
           <a
             href="//nextjs.org/"
             target="_blank"
@@ -67,7 +68,6 @@ const SkillsBox = (props) => {
             </svg>
           </a>
         </div>
-        {/* <p className="font-mono text-2xl">Coming Soon</p> */}
       </div>
     </div>
   );

@@ -22,7 +22,19 @@ export const getStaticProps: GetStaticProps = async () => {
   const songs = fs.readdirSync(songsDirectory);
 
   const reposRes = await fetch("https://api.github.com/users/zf4ke/repos");
-  const repos = await reposRes.json();
+  const fullRepos = await reposRes.json();
+
+  // keep only the fields the UI uses — the raw API payload exceeds
+  // Next.js' 128 kB page-data threshold
+  const repos = fullRepos.map((r) => ({
+    id: r.id,
+    name: r.name,
+    description: r.description,
+    svn_url: r.svn_url,
+    homepage: r.homepage,
+    fork: r.fork,
+    stargazers_count: r.stargazers_count,
+  }));
 
   repos.sort((a, b) => b.stargazers_count - a.stargazers_count);
 
@@ -69,8 +81,11 @@ const Home = (props: props) => {
   return (
     <div className="pattern cursor-default flex flex-col justify-center items-center min-h-screen h-full bg-zinc-100 dark:bg-dark-blurple p-8 md:p-12 lg:p-14 transition-colors duration-300">
       <Head>
-        <title>Portfolio</title>
-        <meta name="description" content="My Portfolio" />
+        <title>Pedro Silva — Developer</title>
+        <meta
+          name="description"
+          content="Pedro Silva (zF4ke) — MSc Computer Science student at IST Lisbon. Web development, AI, and freelance work."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -98,32 +113,13 @@ const Home = (props: props) => {
             I&apos;m particularly interested in Artificial Intelligence and Web Development.
           </p>
           <br />
-          <p>Currently, I am pursuing a degree in Computer Science at FCUL (Faculdade de Ciências da Universidade de Lisboa). I am also passionate about exploring new opportunities to apply my skills and knowledge. One of my favorite experiences so far has been participating in CanSat, where I helped create a microsatellite. This experience has taught me valuable skills in teamwork, project management, and problem-solving.</p>
+          <p>Currently, I am completing my Master&apos;s in Computer Science and Engineering at IST (Instituto Superior Técnico), after earning my Bachelor&apos;s at FCUL. I am always exploring new opportunities to apply my skills and knowledge. One of my favorite experiences so far has been participating in CanSat, where I helped create a microsatellite — it taught me valuable skills in teamwork, project management, and problem-solving.</p>
           <br />
           <p>In my free time, I like to share my knowledge and learn new things through my <a href="//youtube.com/c/zFake/" target="_blank" rel="noreferrer" className="text-violet-500 cursor-pointer link link-underline link-underline-violet-500">YouTube channel</a>, where I teach coding and science to others, as well as solving riddles and puzzles. This helps keep my mind sharp and allows me to approach problems from different angles.</p>
           <br />
           <p>In addition to my academic pursuits, I am also studying Artificial Intelligence on my own. I have a curious mind and I am always eager to learn new concepts and technologies.</p>
         </div>
       </Section>
-
-      {/* <Section title={"Skills"}>
-        <div>
-          <p>[...in progress]</p>
-          <br />
-          <p>
-            Voluptate labore laboris pariatur sunt ex nulla voluptate id cillum.
-            Proident laborum ex exercitation aliqua sunt deserunt proident
-            labore ut. Do voluptate anim sint adipisicing aliqua labore aliquip.
-          </p>
-          <br />
-          <p>
-            Ut amet ad commodo aliqua in enim. Aliquip in sunt adipisicing magna
-            laborum nostrud laborum officia ea deserunt est et. Culpa enim magna
-            dolor aute officia ut est culpa qui pariatur consequat nulla
-            consequat.
-          </p>
-        </div>
-      </Section> */}
 
       <Section title={"Projects"}>
         <div ref={projectsSectionRef}>
@@ -139,6 +135,41 @@ const Home = (props: props) => {
             </div>
             <div className="w-6"></div>
           </div>
+        </div>
+      </Section>
+
+      <Section title={"Services"}>
+        <div>
+          <p>$ man services</p>
+          <br />
+          <p>
+            I take on small freelance jobs with a <strong>fixed quote</strong>{" "}
+            and <strong>24–48h turnaround</strong>:
+          </p>
+          <br />
+          <ul className="space-y-1.5 list-disc list-inside marker:text-violet-500">
+            <li>Websites &amp; landing pages</li>
+            <li>Bug fixes &amp; site rescue</li>
+            <li>Python / JavaScript automation &amp; scraping</li>
+            <li>AI integrations &amp; chatbots</li>
+            <li>Data &amp; spreadsheet work</li>
+            <li>
+              Portuguese <Emoji symbol="🇵🇹" /> ⇄ English <Emoji symbol="🇬🇧" />{" "}
+              translation
+            </li>
+          </ul>
+          <br />
+          <p>
+            Describe your job in two sentences and you&apos;ll get a quote and
+            a delivery date —{" "}
+            <strong
+              className="text-violet-500 cursor-pointer link link-underline link-underline-violet-500"
+              onClick={() => handleClickScroll(contactSectionRef)}
+            >
+              usually within the hour
+            </strong>
+            .
+          </p>
         </div>
       </Section>
 

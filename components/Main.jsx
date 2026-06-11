@@ -6,7 +6,7 @@ import Player from "./Player";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
-import { MoonIcon, SunIcon } from "@heroicons/react/solid";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
 function getAge(dateString) {
   var today = new Date();
@@ -76,7 +76,7 @@ const Main = (props) => {
           >
             aka zF4ke
           </a>
-          , an {age} y&apos;o Computer Science Student and AI Aspirant{" "}
+          , a {age} y&apos;o MSc Computer Science student and developer{" "}
           <Emoji symbol="👨‍💻" />
         </h2>
       </header>

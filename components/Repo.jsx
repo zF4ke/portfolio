@@ -16,7 +16,7 @@ const Repo = ({ repo }) => {
       </h5>
 
       <p className="text-violet-800 dark:text-violet-300 text-sm md:text-md lg:text-lg">
-        {repo.description ? repo.description : "Sem descrição."}
+        {repo.description ? repo.description : "No description."}
       </p>
 
       {repo.homepage && (

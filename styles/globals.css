@@ -72,6 +72,14 @@ a {
   }
 }
 
+.emoji {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin: 0 0.06em;
+  vertical-align: -0.12em;
+}
+
 @layer components {
   .player-button {
     @apply h-10 w-10 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;

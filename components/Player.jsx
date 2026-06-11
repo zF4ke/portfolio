@@ -1,11 +1,11 @@
-import { VolumeUpIcon as VolumeDownIcon } from "@heroicons/react/outline";
+import { SpeakerWaveIcon as VolumeDownIcon } from "@heroicons/react/24/outline";
 import {
-  RewindIcon,
-  FastForwardIcon,
+  BackwardIcon as RewindIcon,
+  ForwardIcon as FastForwardIcon,
   PauseIcon,
   PlayIcon,
-  VolumeUpIcon,
-} from "@heroicons/react/solid";
+  SpeakerWaveIcon as VolumeUpIcon,
+} from "@heroicons/react/24/solid";
 
 import { useEffect, useRef, useState } from "react";
 
