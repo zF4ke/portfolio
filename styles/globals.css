@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -137,16 +136,6 @@ a {
 }
 .ulink:hover {
   background-size: 100% 1.5px;
-}
-
-/* samurai-themed side accent: a vertical proverb that parallaxes on scroll */
-.jp {
-  font-family: "Noto Serif JP", "Yu Mincho", serif;
-}
-.kanji-accent {
-  writing-mode: vertical-rl;
-  letter-spacing: 0.35em;
-  will-change: transform;
 }
 
 /* card cursor glow */
