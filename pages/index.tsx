@@ -3,14 +3,20 @@ import path from "path";
 
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Player from "../components/Player";
 import Emoji from "../components/Emoji";
 
 import { VscGithub } from "react-icons/vsc";
 import { ImYoutube } from "react-icons/im";
-import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import {
+  FaLinkedinIn,
+  FaXTwitter,
+  FaPlaneUp,
+  FaYoutube,
+  FaSatellite,
+} from "react-icons/fa6";
 import { SiDiscord } from "react-icons/si";
 import { RiInstagramLine } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
@@ -26,12 +32,7 @@ export const getStaticProps: GetStaticProps = async () => {
     if (Array.isArray(full)) {
       repos = full
         .filter((r) => !r.fork && r.name !== "zF4ke")
-        .map((r) => ({
-          name: r.name,
-          description: r.description,
-          url: r.svn_url,
-          stars: r.stargazers_count,
-        }))
+        .map((r) => ({ name: r.name, url: r.svn_url, stars: r.stargazers_count }))
         .sort((a, b) => b.stars - a.stars);
     }
   } catch (e) {
@@ -41,6 +42,16 @@ export const getStaticProps: GetStaticProps = async () => {
   return { props: { songs, repos }, revalidate: 3600 };
 };
 
+type Project = {
+  name: string;
+  tag: string;
+  blurb: string;
+  tech: string[];
+  img?: string;
+  live?: string;
+  code?: string;
+  isPrivate?: boolean;
+};
 type Props = { songs: string[]; repos: any[] };
 
 function getAge(dateString: string) {
@@ -53,13 +64,16 @@ function getAge(dateString: string) {
 }
 const AGE = getAge("2004/10/07");
 
-const FEATURED = [
+const DEV = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
+const FEATURED: Project[] = [
   {
     name: "Sophia",
     tag: "AI agent",
     blurb:
-      "A conversational AI agent for Discord that searches your server history and acts on it in plain language, with admin approval on every change. 33 tools running in an agentic loop.",
-    tech: ["TypeScript", "discord.js", "LLM tools", "SQLite"],
+      "A conversational AI agent for Discord that searches your server history and acts on it in plain language, with admin approval on every change. 33 tools running in an agentic loop, with budget limits and role-based access baked in.",
+    tech: ["TypeScript", "discord.js", "LLM tools", "SQLite", "Vitest"],
+    img: "/images/projects/sophia.png",
     live: "https://zf4ke.github.io/sophia",
     code: "https://github.com/zF4ke/sophia",
   },
@@ -67,8 +81,9 @@ const FEATURED = [
     name: "Timebox",
     tag: "Multi-agent",
     blurb:
-      "A desktop app where five AI agents draft, critique and vote on your weekly schedule, then export it straight to your calendar. It ships with its own model benchmark harness.",
-    tech: ["Electron", "React", "OpenRouter", "Vitest"],
+      "A desktop app where five AI agents draft, critique and vote on your weekly schedule under a quorum you control, then export it straight to your calendar. It ships with its own benchmark harness for comparing models on cost and quality.",
+    tech: ["Electron", "React", "TypeScript", "OpenRouter"],
+    img: "/images/projects/timebox.png",
     live: "https://zf4ke.github.io/timebox",
     code: "https://github.com/zF4ke/timebox",
   },
@@ -76,8 +91,9 @@ const FEATURED = [
     name: "Modern Bazaar",
     tag: "Full-stack",
     blurb:
-      "An enterprise-grade market analyzer for a live game economy. Spring Boot ingestion backend, Next.js dashboard, real-time analytics and production-style observability.",
-    tech: ["Spring Boot", "Next.js", "PostgreSQL", "Grafana"],
+      "An enterprise-grade market analyzer for a live game economy. A Spring Boot ingestion backend polls and compacts market data, a Next.js dashboard surfaces real-time analytics and trading strategies, all wired with production-style observability.",
+    tech: ["Spring Boot", "Next.js", "PostgreSQL", "Grafana", "Docker"],
+    img: "/images/projects/modern-bazaar.png",
     live: "https://modern-bazaar.vercel.app",
     code: "https://github.com/zF4ke/ModernBazaar",
   },
@@ -85,15 +101,15 @@ const FEATURED = [
     name: "Traveller",
     tag: "Game engine",
     blurb:
-      "A multiplayer RPG played inside Discord where decrypting ciphers is the core mechanic. Platform-agnostic game engine, data-driven content, and a Next.js authoring dashboard.",
-    tech: ["TS monorepo", "MongoDB", "discord.js"],
+      "A multiplayer RPG played inside Discord where decrypting ciphers is the core mechanic. A platform-agnostic game engine with zero Discord imports, data-driven content, swappable storage, and a Next.js authoring dashboard. Its test suite plays entire quests in under a second.",
+    tech: ["TS monorepo", "MongoDB", "discord.js", "Next.js"],
     isPrivate: true,
   },
   {
     name: "Neuroevolution",
     tag: "AI / ML",
     blurb:
-      "Flappy Bird that teaches itself to fly, using neural networks evolved with a genetic algorithm and visualized generation by generation in the browser.",
+      "Flappy Bird that teaches itself to fly. Neural networks evolved with a genetic algorithm, visualized generation by generation in the browser so you can watch the population get better in real time.",
     tech: ["JavaScript", "Neural nets", "Genetic algorithms"],
     code: "https://github.com/zF4ke/neuroevolution-flappy-bird",
   },
@@ -101,7 +117,7 @@ const FEATURED = [
     name: "2D Game Dev series",
     tag: "Teaching",
     blurb:
-      "The open-source code behind my YouTube series on building a 2D game in vanilla JavaScript, from the game loop to collisions and sprites.",
+      "The open-source code behind my YouTube series on building a 2D game in vanilla JavaScript, from the game loop and rendering to collisions and sprites. Made to teach the fundamentals with no engine in the way.",
     tech: ["JavaScript", "HTML5 Canvas"],
     code: "https://github.com/zF4ke/jogo2d-javascript",
   },
@@ -112,27 +128,70 @@ const EXPERIENCE = [
     role: "Software & AI",
     org: "AeroTec ATLAS",
     period: "2025 to now",
+    url: "https://aerotec.pt/atlas",
+    Icon: FaPlaneUp,
     note: "I build computer vision and autonomy software for the only Portuguese university team flying fully autonomous drones. Real-time video pipelines with GStreamer and ROS 2, plus AI inference for object detection.",
   },
   {
     role: "Programming content creator",
     org: "YouTube, zFake",
     period: "2021 to now",
+    url: "https://youtube.com/@zFake",
+    Icon: FaYoutube,
     note: "I teach coding, science and math to a Portuguese-speaking audience, including a full series on building a 2D game from scratch.",
   },
   {
     role: "Avionics, PalmaSat",
     org: "CanSat Portugal",
     period: "2022",
+    url: "https://github.com/zF4ke/cansat-palmasat",
+    Icon: FaSatellite,
     note: "Co-built the flight software for a can-sized satellite: telemetry, sensors and radio downlink. The team won the national Technical Performance Award.",
   },
 ];
 
 const SKILLS = [
-  { label: "Web", items: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "Tailwind"] },
-  { label: "AI & Data", items: ["Python", "PyTorch", "OpenCV", "Jupyter", "LLM agents"] },
-  { label: "Backend", items: ["Java", "Spring Boot", "PostgreSQL", "MongoDB", "Firebase"] },
-  { label: "Tools", items: ["Git", "Linux", "Docker", "ROS 2", "GStreamer"] },
+  {
+    label: "Web",
+    items: [
+      { name: "JavaScript", icon: `${DEV}/javascript/javascript-original.svg` },
+      { name: "TypeScript", icon: `${DEV}/typescript/typescript-original.svg` },
+      { name: "React", icon: `${DEV}/react/react-original.svg` },
+      { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs/white" },
+      { name: "Node.js", icon: `${DEV}/nodejs/nodejs-original.svg` },
+      { name: "Tailwind", icon: `${DEV}/tailwindcss/tailwindcss-original.svg` },
+    ],
+  },
+  {
+    label: "AI & Data",
+    items: [
+      { name: "Python", icon: `${DEV}/python/python-original.svg` },
+      { name: "PyTorch", icon: `${DEV}/pytorch/pytorch-original.svg` },
+      { name: "OpenCV", icon: `${DEV}/opencv/opencv-original.svg` },
+      { name: "Jupyter", icon: `${DEV}/jupyter/jupyter-original.svg` },
+      { name: "LLM agents", icon: null },
+    ],
+  },
+  {
+    label: "Backend",
+    items: [
+      { name: "Java", icon: `${DEV}/java/java-original.svg` },
+      { name: "Spring Boot", icon: `${DEV}/spring/spring-original.svg` },
+      { name: "PostgreSQL", icon: `${DEV}/postgresql/postgresql-original.svg` },
+      { name: "MongoDB", icon: `${DEV}/mongodb/mongodb-original.svg` },
+      { name: "Firebase", icon: `${DEV}/firebase/firebase-plain.svg` },
+    ],
+  },
+  {
+    label: "Tools",
+    items: [
+      { name: "Git", icon: `${DEV}/git/git-original.svg` },
+      { name: "Linux", icon: `${DEV}/linux/linux-original.svg` },
+      { name: "Docker", icon: `${DEV}/docker/docker-original.svg` },
+      { name: "ROS 2", icon: "https://cdn.simpleicons.org/ros/white" },
+      { name: "GStreamer", icon: null },
+    ],
+  },
 ];
 
 const SOCIALS = [
@@ -153,51 +212,169 @@ const TERMINAL = [
   ["uptime", "coding since age 11"],
 ];
 
-const ProjectCard = ({ p }: { p: any }) => (
-  <article className="card reveal rounded-2xl border border-line bg-surface/70 p-6 hover:border-accent-500/40 hover:bg-surface">
-    <div className="flex items-start justify-between gap-3">
-      <h3 className="text-lg font-600 text-white">{p.name}</h3>
-      <span className="shrink-0 rounded-full bg-accent-500/12 px-2.5 py-1 font-jetbrains text-[11px] text-accent-300 ring-1 ring-accent-500/20">
-        {p.tag}
-      </span>
+function TechChip({ name, icon }: { name: string; icon: string | null }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-lg border border-line bg-base/50 px-2.5 py-1.5 text-sm text-zinc-300">
+      {icon ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img src={icon} alt="" className="h-4 w-4" loading="lazy" />
+      ) : (
+        <span className="h-1.5 w-1.5 rounded-full bg-accent-400" />
+      )}
+      {name}
+    </span>
+  );
+}
+
+function ProjectThumb({ p }: { p: Project }) {
+  if (p.img) {
+    return (
+      /* eslint-disable-next-line @next/next/no-img-element */
+      <img
+        src={p.img}
+        alt={p.name}
+        className="h-44 w-full object-cover object-top"
+        loading="lazy"
+      />
+    );
+  }
+  return (
+    <div className="flex h-44 w-full items-center justify-center bg-gradient-to-br from-accent-600/25 via-surface to-surface">
+      <span className="font-jetbrains text-2xl font-600 text-accent-300/80">{p.name}</span>
     </div>
-    <p className="mt-3 text-sm leading-relaxed text-zinc-400">{p.blurb}</p>
-    <div className="mt-4 flex flex-wrap gap-1.5">
-      {p.tech.map((t: string) => (
-        <span key={t} className="font-jetbrains text-[11px] text-zinc-500">
-          {t}
-        </span>
-      ))}
-    </div>
-    <div className="mt-5 flex items-center gap-3 text-sm">
-      {p.live && (
-        <a
-          href={p.live}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1.5 font-500 text-accent-300 hover:text-accent-400 transition-colors"
+  );
+}
+
+function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
+  return (
+    <article
+      onClick={onOpen}
+      className="card reveal group cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface/70 hover:border-accent-500/40 hover:bg-surface"
+    >
+      <div className="overflow-hidden border-b border-line">
+        <div className="transition-transform duration-500 group-hover:scale-[1.03]">
+          <ProjectThumb p={p} />
+        </div>
+      </div>
+      <div className="p-5">
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="text-lg font-600 text-white">{p.name}</h3>
+          <span className="shrink-0 rounded-full bg-accent-500/12 px-2.5 py-1 font-jetbrains text-[11px] text-accent-300 ring-1 ring-accent-500/20">
+            {p.tag}
+          </span>
+        </div>
+        <p className="mt-2.5 line-clamp-2 text-sm leading-relaxed text-zinc-400">{p.blurb}</p>
+        <div className="mt-4 flex items-center gap-4 text-sm">
+          {p.live && (
+            <a
+              href={p.live}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 font-500 text-accent-300 hover:text-accent-400 transition-colors"
+            >
+              Live <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {p.code && (
+            <a
+              href={p.code}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 font-500 text-zinc-300 hover:text-white transition-colors"
+            >
+              <VscGithub className="h-4 w-4" /> Code
+            </a>
+          )}
+          <span className="ml-auto font-jetbrains text-[11px] text-zinc-600 group-hover:text-accent-300 transition-colors">
+            details +
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-[60] grid place-items-center bg-black/75 p-4 backdrop-blur-sm sm:p-8"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-line bg-surface shadow-2xl shadow-black/60"
+      >
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-lg bg-black/40 text-zinc-300 backdrop-blur hover:bg-black/60 hover:text-white transition-colors"
         >
-          Live <span aria-hidden="true">↗</span>
-        </a>
-      )}
-      {p.code && (
-        <a
-          href={p.code}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-1.5 font-500 text-zinc-300 hover:text-white transition-colors"
-        >
-          <VscGithub className="h-4 w-4" /> Code
-        </a>
-      )}
-      {p.isPrivate && (
-        <span className="font-jetbrains text-[11px] text-zinc-600">private repo</span>
-      )}
+          ✕
+        </button>
+        <ProjectThumb p={{ ...p }} />
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-wrap items-center gap-3">
+            <h3 className="text-2xl font-700 text-white">{p.name}</h3>
+            <span className="rounded-full bg-accent-500/12 px-2.5 py-1 font-jetbrains text-[11px] text-accent-300 ring-1 ring-accent-500/20">
+              {p.tag}
+            </span>
+          </div>
+          <p className="mt-4 leading-relaxed text-zinc-300">{p.blurb}</p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {p.tech.map((t) => (
+              <span key={t} className="rounded-lg border border-line bg-base/50 px-2.5 py-1 font-jetbrains text-[12px] text-zinc-400">
+                {t}
+              </span>
+            ))}
+          </div>
+          <div className="mt-7 flex flex-wrap gap-3">
+            {p.live && (
+              <a
+                href={p.live}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-2.5 font-500 text-white hover:bg-accent-400 transition-colors"
+              >
+                Open live demo <span aria-hidden="true">↗</span>
+              </a>
+            )}
+            {p.code && (
+              <a
+                href={p.code}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-2.5 font-500 text-zinc-200 hover:bg-white/5 transition-colors"
+              >
+                <VscGithub className="h-[18px] w-[18px]" /> View code
+              </a>
+            )}
+            {p.isPrivate && (
+              <span className="inline-flex items-center font-jetbrains text-[12px] text-zinc-500">
+                private repo, available on request
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
-  </article>
-);
+  );
+}
 
 const Home = ({ songs, repos }: Props) => {
+  const [selected, setSelected] = useState<Project | null>(null);
+
   useEffect(() => {
     const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const els = document.querySelectorAll(".reveal");
@@ -245,11 +422,11 @@ const Home = ({ songs, repos }: Props) => {
       <header className="sticky top-0 z-40 border-b border-line bg-base/80 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <a href="#top" className="font-jetbrains text-sm text-zinc-300 hover:text-white transition-colors">
-            pedro<span className="text-accent-400">.</span>silva<span className="text-zinc-600">()</span>
+            Pedro Silva
           </a>
           <div className="hidden items-center gap-7 text-sm text-zinc-400 sm:flex">
             <a href="#about" className="hover:text-white transition-colors">About</a>
-            <a href="#work" className="hover:text-white transition-colors">Work</a>
+            <a href="#projects" className="hover:text-white transition-colors">Projects</a>
             <a href="#experience" className="hover:text-white transition-colors">Experience</a>
             <a href="#contact" className="hover:text-white transition-colors">Contact</a>
           </div>
@@ -268,13 +445,9 @@ const Home = ({ songs, repos }: Props) => {
           <div className="grid-bg absolute inset-0"></div>
           <div className="relative mx-auto grid max-w-5xl gap-12 px-6 pt-20 pb-24 md:grid-cols-[1.15fr_1fr] md:items-center md:pt-24">
             <div>
-              <p className="reveal mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-3 py-1 font-jetbrains text-[12px] text-zinc-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-400"></span>
-                available for work and freelance
-              </p>
               <h1 className="reveal text-4xl font-700 leading-[1.07] tracking-tight text-white sm:text-5xl">
-                I build things <br className="hidden sm:block" />
-                that <span className="text-accent-400">actually work</span>.
+                I like making <br className="hidden sm:block" />
+                computers <span className="text-accent-400">smarter</span>.
               </h1>
               <p className="reveal mt-6 max-w-lg text-lg leading-relaxed text-zinc-400">
                 I&apos;m Pedro, a {AGE} year old developer from Portugal <Emoji symbol="🇵🇹" />. I work on
@@ -283,7 +456,7 @@ const Home = ({ songs, repos }: Props) => {
               </p>
               <div className="reveal mt-8 flex flex-wrap items-center gap-3">
                 <a
-                  href="#work"
+                  href="#projects"
                   className="rounded-xl bg-white px-5 py-3 font-500 text-base text-zinc-950 hover:bg-zinc-200 transition-colors"
                 >
                   See my work
@@ -363,24 +536,25 @@ const Home = ({ songs, repos }: Props) => {
                 <a href="https://youtube.com/@zFake" target="_blank" rel="noreferrer" className="ulink text-zinc-200">
                   YouTube channel
                 </a>{" "}
-                where I teach coding and science. Explaining something is still the best way I know to learn it.
+                where I teach coding and math. Explaining something is still the best way I know to learn it.
               </p>
             </div>
           </div>
         </section>
 
-        {/* work */}
-        <section id="work" className="border-t border-line">
+        {/* projects */}
+        <section id="projects" className="border-t border-line">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-            <p className="reveal font-jetbrains text-sm text-accent-300">{"// selected work"}</p>
+            <p className="reveal font-jetbrains text-sm text-accent-300">{"// projects"}</p>
             <h2 className="reveal mt-3 text-3xl font-700 tracking-tight text-white">Things I&apos;ve built</h2>
             <p className="reveal mt-3 max-w-xl text-zinc-400">
-              A few projects I am proud of. Three of them have a live demo you can poke at right now.
+              A few projects I am proud of. Click any of them for a closer look. Three have a live demo you
+              can poke at right now.
             </p>
 
             <div className="mt-12 grid gap-5 sm:grid-cols-2">
               {FEATURED.map((p) => (
-                <ProjectCard key={p.name} p={p} />
+                <ProjectCard key={p.name} p={p} onOpen={() => setSelected(p)} />
               ))}
             </div>
 
@@ -410,15 +584,29 @@ const Home = ({ songs, repos }: Props) => {
           <div className="mx-auto max-w-3xl px-6 py-20 md:py-28">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// experience"}</p>
             <h2 className="reveal mt-3 text-3xl font-700 tracking-tight text-white">Where I&apos;ve put it to work</h2>
-            <div className="mt-12 space-y-px">
+            <div className="mt-12">
               {EXPERIENCE.map((e) => (
                 <div
                   key={e.role + e.org}
-                  className="reveal grid gap-2 border-t border-line py-7 md:grid-cols-[160px_1fr] md:gap-8"
+                  className="reveal grid gap-3 border-t border-line py-7 md:grid-cols-[180px_1fr] md:gap-8"
                 >
-                  <div>
-                    <p className="font-jetbrains text-[12px] text-zinc-500">{e.period}</p>
-                    <p className="mt-1 font-600 text-white">{e.org}</p>
+                  <div className="flex items-start gap-3">
+                    <div className="flex gap-3 items-center">
+                        <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-accent-500/12 text-accent-300 ring-1 ring-accent-500/20">
+                        <e.Icon className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <p className="font-jetbrains text-[12px] text-zinc-500">{e.period}</p>
+                        <a
+                          href={e.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ulink mt-1 inline-block font-600 text-white"
+                        >
+                          {e.org}
+                        </a>
+                      </div>
+                    </div>
                   </div>
                   <div>
                     <p className="font-500 text-zinc-200">{e.role}</p>
@@ -435,15 +623,15 @@ const Home = ({ songs, repos }: Props) => {
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-24">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// toolbox"}</p>
             <h2 className="reveal mt-3 text-3xl font-700 tracking-tight text-white">What I work with</h2>
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
               {SKILLS.map((g) => (
                 <div key={g.label} className="reveal rounded-2xl border border-line bg-surface/60 p-6">
                   <h3 className="font-jetbrains text-sm text-accent-300">{g.label}</h3>
-                  <ul className="mt-4 space-y-2 text-sm text-zinc-300">
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {g.items.map((it) => (
-                      <li key={it}>{it}</li>
+                      <TechChip key={it.name} name={it.name} icon={it.icon} />
                     ))}
-                  </ul>
+                  </div>
                 </div>
               ))}
             </div>
@@ -502,7 +690,11 @@ const Home = ({ songs, repos }: Props) => {
       <footer className="border-t border-line">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-6 py-8 text-sm text-zinc-600 sm:flex-row">
           <span className="font-jetbrains">© {new Date().getFullYear()} Pedro Silva</span>
-          <span className="font-jetbrains text-[12px]">built with Next.js, on a quiet evening</span>
+          <div className="flex items-center gap-5 font-jetbrains text-[12px]">
+            <a href="https://github.com/zf4ke" target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">GitHub</a>
+            <a href="https://youtube.com/@zFake" target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">YouTube</a>
+            <a href="https://linkedin.com/in/zf4ke" target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">LinkedIn</a>
+          </div>
         </div>
       </footer>
 
@@ -510,6 +702,8 @@ const Home = ({ songs, repos }: Props) => {
       <div className="fixed bottom-4 right-4 z-40 hidden rounded-xl border border-line bg-surface/90 px-3 py-2 backdrop-blur md:block">
         <Player songs={songs} />
       </div>
+
+      {selected && <ProjectModal p={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 };
