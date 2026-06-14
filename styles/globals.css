@@ -1,6 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Ubuntu+Mono&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -11,11 +9,11 @@ body {
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
+  background-color: #0f0e15;
 }
 
-::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+* {
+  box-sizing: border-box;
 }
 
 a {
@@ -23,53 +21,78 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+::selection {
+  background: rgba(109, 113, 249, 0.32);
 }
 
-.link-underline {
-  border-bottom-width: 0;
-  background-image: linear-gradient(transparent, transparent),
-    linear-gradient(#fff, #fff);
-  background-size: 0 2px;
+/* slim, themed scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* faint grid backdrop for the hero */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 38px 38px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, black 30%, transparent 100%);
+  mask-image: radial-gradient(70% 60% at 50% 0%, black 30%, transparent 100%);
+}
+
+.glow {
+  background:
+    radial-gradient(48rem 28rem at 75% -10%, rgba(109, 113, 249, 0.16), transparent 60%),
+    radial-gradient(40rem 28rem at 0% 10%, rgba(88, 92, 230, 0.1), transparent 55%);
+}
+
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* animated underline for inline links */
+.ulink {
+  background-image: linear-gradient(#8b8efb, #8b8efb);
+  background-size: 0 1.5px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size 0.3s ease-in-out;
+  transition: background-size 0.3s ease;
+}
+.ulink:hover {
+  background-size: 100% 1.5px;
 }
 
-.link-underline-purple {
-  background-image: linear-gradient(transparent, transparent),
-    linear-gradient(#6d71f9, #6d71f9);
+/* card cursor glow */
+.card {
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.2, 0.6, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
 }
-
-.link-underline-violet-500 {
-  background-image: linear-gradient(transparent, transparent),
-    linear-gradient(#8b5cf6, #8b5cf6);
-}
-
-.link-underline:hover {
-  background-size: 100% 2px;
-  background-position: 0 100%;
-}
-
-.bg-pattern-red {
-  background: 0px 0px/45px 45px #24222a radial-gradient(#24222a 6%, #15131b 5%);
-}
-
-.pattern {
-  background-color: transparent;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='72' viewBox='0 0 64 80'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23504e5a' fill-opacity='0.1'%3E%3Cpath d='M2 6h12L8 18 2 6zm18 36h12l-6 12-6-12z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  background-position: 0px 0px;
-  animation: diagonal 30s linear infinite;
-}
-
-@keyframes diagonal {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 100% 100%;
-  }
+.card:hover {
+  transform: translateY(-4px);
 }
 
 .emoji {
@@ -82,7 +105,7 @@ a {
 
 @layer components {
   .player-button {
-    @apply h-10 w-10 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;
+    @apply h-9 w-9 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;
   }
   .player-volume-button {
     @apply h-5 w-5 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;
