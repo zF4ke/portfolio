@@ -6,11 +6,7 @@ Built with Next.js (pages router), React 18, Tailwind CSS, and TypeScript. Proje
 
 ## Preview
 
-Dark mode
-<img src="./public/images/darkmode.png" />
-
-Light mode
-<img src="./public/images/whitemode.png" />
+<img src="./public/images/preview.png" alt="Portfolio" />
 
 ## Development
 
@@ -20,4 +16,4 @@ npm run dev    # http://localhost:3000
 npm run build  # production build
 ```
 
-Deployed automatically by Vercel on push to `main`.
+Deployed automatically by Vercel on push to `master`.
