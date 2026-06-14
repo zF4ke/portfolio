@@ -437,12 +437,24 @@ const Home = ({ songs, repos }: Props) => {
             <a href="#experience" className="hover:text-white transition-colors">Experience</a>
             <a href="#contact" className="hover:text-white transition-colors">Contact</a>
           </div>
-          <a
-            href="mailto:pedrohsilva955@gmail.com"
-            className="rounded-lg bg-accent-500 px-3.5 py-2 text-sm font-500 text-white hover:bg-accent-400 transition-colors"
-          >
-            Get in touch
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="/Pedro-Silva-CV.pdf"
+              download
+              className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-500 text-zinc-300 hover:border-white/25 hover:bg-white/5 hover:text-white transition-colors"
+            >
+              <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" />
+              </svg>
+              CV
+            </a>
+            <a
+              href="mailto:pedrohsilva955@gmail.com"
+              className="rounded-lg bg-accent-500 px-3.5 py-2 text-sm font-500 text-white hover:bg-accent-400 transition-colors"
+            >
+              Get in touch
+            </a>
+          </div>
         </nav>
       </header>
 
@@ -475,16 +487,6 @@ const Home = ({ songs, repos }: Props) => {
                   className="inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-3 font-500 text-zinc-200 hover:bg-white/5 transition-colors"
                 >
                   <VscGithub className="h-[18px] w-[18px]" /> GitHub
-                </a>
-                <a
-                  href="/Pedro-Silva-CV.pdf"
-                  download
-                  className="inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-3 font-500 text-zinc-200 hover:bg-white/5 transition-colors"
-                >
-                  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" />
-                  </svg>
-                  Download CV
                 </a>
               </div>
               <div className="reveal mt-8 flex items-center gap-4 text-zinc-500">
