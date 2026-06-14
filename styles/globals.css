@@ -43,14 +43,44 @@ a {
     linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 38px 38px;
+  background-position: 0 0;
   -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, black 30%, transparent 100%);
   mask-image: radial-gradient(70% 60% at 50% 0%, black 30%, transparent 100%);
+  animation: grid-pan 24s linear infinite;
+}
+
+/* subtle diagonal drift, a nod to the old moving pattern */
+@keyframes grid-pan {
+  to {
+    background-position: 38px 38px;
+  }
 }
 
 .glow {
   background:
     radial-gradient(48rem 28rem at 75% -10%, rgba(109, 113, 249, 0.16), transparent 60%),
     radial-gradient(40rem 28rem at 0% 10%, rgba(88, 92, 230, 0.1), transparent 55%);
+}
+
+/* slow, barely-there breathing on the hero glow */
+.glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(36rem 22rem at 60% 0%, rgba(109, 113, 249, 0.1), transparent 60%);
+  animation: glow-breathe 9s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateY(-6px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(6px);
+  }
 }
 
 /* scroll reveal */
@@ -71,6 +101,10 @@ a {
   }
   html {
     scroll-behavior: auto;
+  }
+  .grid-bg,
+  .glow::before {
+    animation: none;
   }
 }
 
