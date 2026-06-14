@@ -1,12 +1,12 @@
 # Portfolio
 
-Personal website of Pedro Silva ([zF4ke](https://github.com/zF4ke)) — live at [portfolio-zf4ke.vercel.app](https://portfolio-zf4ke.vercel.app).
+My personal site, live at [zf4ke.me](https://zf4ke.me).
 
-Built with Next.js (pages router), React 18, Tailwind CSS, and TypeScript. Projects are pulled live from the GitHub API at build time and revalidated hourly. Emojis render as [Twemoji](https://github.com/jdecked/twemoji) SVGs for consistent cross-platform appearance.
+Built with Next.js (pages router), TypeScript and Tailwind. It is a single dark page with an animated hero, a few featured projects, and a music player hiding in the corner. The "more on GitHub" list is pulled from the GitHub API at build time, so it stays current on its own.
 
 ## Preview
 
-<img src="./public/images/preview.png" alt="Portfolio" />
+<img src="./public/images/preview.png" alt="zf4ke.me" />
 
 ## Development
 
@@ -16,4 +16,4 @@ npm run dev    # http://localhost:3000
 npm run build  # production build
 ```
 
-Deployed automatically by Vercel on push to `master`.
+Deploys automatically on push to `master`.
