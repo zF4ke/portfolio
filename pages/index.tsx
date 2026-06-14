@@ -415,14 +415,21 @@ const Home = ({ songs, repos }: Props) => {
           name="description"
           content="Pedro Silva (zF4ke), a developer from Portugal. MSc Computer Science at IST. AI agents, full-stack web, and autonomous drones."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/images/character.png" />
+        <link rel="apple-touch-icon" href="/images/character.png" />
       </Head>
 
       {/* nav */}
       <header className="sticky top-0 z-40 border-b border-line bg-base/80 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <a href="#top" className="font-jetbrains text-sm text-zinc-300 hover:text-white transition-colors">
-            Pedro Silva
+          <a href="#top" className="inline-flex items-center gap-2.5 font-jetbrains text-sm text-zinc-300 hover:text-white transition-colors">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/character.png"
+              alt=""
+              className="h-8 w-8 object-contain"
+            />
+            <span>Pedro Silva</span>
           </a>
           <div className="hidden items-center gap-7 text-sm text-zinc-400 sm:flex">
             <a href="#about" className="hover:text-white transition-colors">About</a>
