@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -60,8 +61,8 @@ a {
 .glow {
   position: relative;
   background:
-    radial-gradient(46rem 26rem at 78% -12%, rgba(109, 113, 249, 0.14), transparent 60%),
-    radial-gradient(38rem 26rem at 2% 8%, rgba(88, 92, 230, 0.09), transparent 55%);
+    radial-gradient(46rem 26rem at 78% -12%, rgba(109, 113, 249, 0.09), transparent 60%),
+    radial-gradient(38rem 26rem at 2% 8%, rgba(88, 92, 230, 0.06), transparent 55%);
 }
 
 /* drifting aurora blobs, clearly alive but soft */
@@ -72,14 +73,14 @@ a {
   z-index: 0;
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(64px);
+  filter: blur(72px);
 }
 .glow::before {
   width: 30rem;
   height: 22rem;
   top: -6rem;
   left: 8%;
-  background: rgba(124, 92, 255, 0.22);
+  background: rgba(124, 92, 255, 0.12);
   animation: drift-a 14s ease-in-out infinite;
 }
 .glow::after {
@@ -87,7 +88,7 @@ a {
   height: 20rem;
   top: -4rem;
   right: 6%;
-  background: rgba(88, 92, 230, 0.18);
+  background: rgba(88, 92, 230, 0.1);
   animation: drift-b 18s ease-in-out infinite;
 }
 
@@ -136,6 +137,16 @@ a {
 }
 .ulink:hover {
   background-size: 100% 1.5px;
+}
+
+/* samurai-themed side accent: a vertical proverb that parallaxes on scroll */
+.jp {
+  font-family: "Noto Serif JP", "Yu Mincho", serif;
+}
+.kanji-accent {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.35em;
+  will-change: transform;
 }
 
 /* card cursor glow */

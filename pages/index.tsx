@@ -396,6 +396,26 @@ const Home = ({ songs, repos }: Props) => {
     els.forEach((el) => io.observe(el));
   }, []);
 
+  // crimson scroll-progress line + subtle parallax on the side proverb
+  useEffect(() => {
+    const bar = document.getElementById("scroll-progress");
+    const kanji = document.getElementById("kanji-accent");
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const y = window.scrollY;
+        if (bar) bar.style.width = (max > 0 ? (y / max) * 100 : 0) + "%";
+        if (kanji) kanji.style.transform = `translateY(${Math.round(y * 0.08)}px)`;
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const featuredNames = new Set([
     "sophia",
     "timebox",
@@ -418,6 +438,22 @@ const Home = ({ songs, repos }: Props) => {
         <link rel="icon" type="image/png" href="/images/character.png" />
         <link rel="apple-touch-icon" href="/images/character.png" />
       </Head>
+
+      {/* crimson reading-progress line */}
+      <div className="fixed inset-x-0 top-0 z-50 h-0.5 bg-transparent">
+        <div id="scroll-progress" className="h-full bg-[#e23b3b]" style={{ width: "0%" }}></div>
+      </div>
+
+      {/* samurai side accent: a resilience proverb, drifts gently on scroll */}
+      <div
+        id="kanji-accent"
+        aria-hidden="true"
+        title="七転八起 — fall seven times, rise eight"
+        className="pointer-events-none fixed right-5 top-[15vh] z-30 hidden select-none flex-col items-center gap-4 lg:flex"
+      >
+        <span className="jp kanji-accent text-5xl text-white/[0.07]">七転八起</span>
+        <span className="font-jetbrains text-[10px] tracking-[0.25em] text-white/[0.06]">rise eight</span>
+      </div>
 
       {/* nav */}
       <header className="sticky top-0 z-40 border-b border-line bg-base/80 backdrop-blur-xl">
