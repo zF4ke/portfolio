@@ -476,6 +476,16 @@ const Home = ({ songs, repos }: Props) => {
                 >
                   <VscGithub className="h-[18px] w-[18px]" /> GitHub
                 </a>
+                <a
+                  href="/Pedro-Silva-CV.pdf"
+                  download
+                  className="inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-3 font-500 text-zinc-200 hover:bg-white/5 transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" />
+                  </svg>
+                  Download CV
+                </a>
               </div>
               <div className="reveal mt-8 flex items-center gap-4 text-zinc-500">
                 {SOCIALS.map(({ name, url, Icon }) => (
