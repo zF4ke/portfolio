@@ -39,48 +39,65 @@ a {
 
 /* faint grid backdrop for the hero */
 .grid-bg {
+  z-index: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 38px 38px;
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
   background-position: 0 0;
-  -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, black 30%, transparent 100%);
-  mask-image: radial-gradient(70% 60% at 50% 0%, black 30%, transparent 100%);
-  animation: grid-pan 24s linear infinite;
+  -webkit-mask-image: radial-gradient(92% 78% at 50% 0%, black 45%, transparent 100%);
+  mask-image: radial-gradient(92% 78% at 50% 0%, black 45%, transparent 100%);
+  animation: grid-pan 7s linear infinite;
 }
 
-/* subtle diagonal drift, a nod to the old moving pattern */
+/* diagonal drift, a clearer nod to the old moving pattern */
 @keyframes grid-pan {
   to {
-    background-position: 38px 38px;
+    background-position: 40px 40px;
   }
 }
 
 .glow {
+  position: relative;
   background:
-    radial-gradient(48rem 28rem at 75% -10%, rgba(109, 113, 249, 0.16), transparent 60%),
-    radial-gradient(40rem 28rem at 0% 10%, rgba(88, 92, 230, 0.1), transparent 55%);
+    radial-gradient(46rem 26rem at 78% -12%, rgba(109, 113, 249, 0.14), transparent 60%),
+    radial-gradient(38rem 26rem at 2% 8%, rgba(88, 92, 230, 0.09), transparent 55%);
 }
 
-/* slow, barely-there breathing on the hero glow */
-.glow::before {
+/* drifting aurora blobs, clearly alive but soft */
+.glow::before,
+.glow::after {
   content: "";
   position: absolute;
-  inset: 0;
+  z-index: 0;
   pointer-events: none;
-  background: radial-gradient(36rem 22rem at 60% 0%, rgba(109, 113, 249, 0.1), transparent 60%);
-  animation: glow-breathe 9s ease-in-out infinite;
+  border-radius: 50%;
+  filter: blur(64px);
+}
+.glow::before {
+  width: 30rem;
+  height: 22rem;
+  top: -6rem;
+  left: 8%;
+  background: rgba(124, 92, 255, 0.22);
+  animation: drift-a 14s ease-in-out infinite;
+}
+.glow::after {
+  width: 26rem;
+  height: 20rem;
+  top: -4rem;
+  right: 6%;
+  background: rgba(88, 92, 230, 0.18);
+  animation: drift-b 18s ease-in-out infinite;
 }
 
-@keyframes glow-breathe {
-  0%, 100% {
-    opacity: 0.5;
-    transform: translateY(-6px);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(6px);
-  }
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(90px, 52px) scale(1.12); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-82px, 42px) scale(0.95); }
 }
 
 /* scroll reveal */
@@ -103,7 +120,8 @@ a {
     scroll-behavior: auto;
   }
   .grid-bg,
-  .glow::before {
+  .glow::before,
+  .glow::after {
     animation: none;
   }
 }

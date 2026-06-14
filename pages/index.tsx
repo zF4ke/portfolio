@@ -450,7 +450,7 @@ const Home = ({ songs, repos }: Props) => {
         {/* hero */}
         <section className="glow relative overflow-hidden">
           <div className="grid-bg absolute inset-0"></div>
-          <div className="relative mx-auto grid max-w-5xl gap-12 px-6 pt-20 pb-24 md:grid-cols-[1.15fr_1fr] md:items-center md:pt-24">
+          <div className="relative z-10 mx-auto grid max-w-5xl gap-12 px-6 pt-20 pb-24 md:grid-cols-[1.15fr_1fr] md:items-center md:pt-24">
             <div>
               <h1 className="reveal text-4xl font-700 leading-[1.07] tracking-tight text-white sm:text-5xl">
                 I like making <br className="hidden sm:block" />
