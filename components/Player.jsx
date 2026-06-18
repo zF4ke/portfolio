@@ -40,21 +40,31 @@ const Player = (props) => {
     if (audioPlayerRef.current) audioPlayerRef.current.volume = volume;
   }, [volume]);
 
+  const playAudio = () => {
+    const playAttempt = audioPlayerRef.current.play();
+    if (playAttempt && typeof playAttempt.then === "function") {
+      playAttempt
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
+    } else {
+      setIsPlaying(true);
+    }
+  };
+
   const start = (index) => {
     const song = songList[index];
     if (!song) return;
-    audioPlayerRef.current.src = `./musics/${song}`;
+    audioPlayerRef.current.src = song.url;
     audioPlayerRef.current.volume = volume;
-    audioPlayerRef.current.play();
     setCurrentSongIndex(index);
     setCurrentSong(song);
-    setIsPlaying(true);
+    setCurrentTime(null);
+    playAudio();
   };
 
   const playSong = () => {
     if (currentSong) {
-      audioPlayerRef.current.play();
-      setIsPlaying(true);
+      playAudio();
     } else {
       start(currentSongIndex);
     }
@@ -115,7 +125,7 @@ const Player = (props) => {
             ></div>
           </div>
           <p className="mt-2 max-w-[12rem] truncate text-center font-jetbrains text-[11px] text-zinc-500">
-            {currentSong.replace(/\.mp3$/i, "").replace(/_/g, " ")}
+            {currentSong.name}
           </p>
         </>
       )}

@@ -1,12 +1,10 @@
-import fs from "fs";
-import path from "path";
-
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
 import Player from "../components/Player";
 import Emoji from "../components/Emoji";
+import songs from "../public/musics/songs.json";
 
 import { VscGithub } from "react-icons/vsc";
 import { ImYoutube } from "react-icons/im";
@@ -22,9 +20,6 @@ import { RiInstagramLine } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
 
 export const getStaticProps: GetStaticProps = async () => {
-  const songsDirectory = path.join(process.cwd(), "public/musics");
-  const songs = fs.readdirSync(songsDirectory);
-
   let repos: any[] = [];
   try {
     const res = await fetch("https://api.github.com/users/zf4ke/repos?per_page=100");
@@ -42,6 +37,11 @@ export const getStaticProps: GetStaticProps = async () => {
   return { props: { songs, repos }, revalidate: 3600 };
 };
 
+type Song = {
+  name: string;
+  url: string;
+};
+
 type Project = {
   name: string;
   tag: string;
@@ -52,7 +52,7 @@ type Project = {
   code?: string;
   isPrivate?: boolean;
 };
-type Props = { songs: string[]; repos: any[] };
+type Props = { songs: Song[]; repos: any[] };
 
 function getAge(dateString: string) {
   const today = new Date();
