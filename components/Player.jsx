@@ -9,7 +9,7 @@ import {
 
 import { useEffect, useRef, useState } from "react";
 
-const DEFAULT_VOLUME = 0.3;
+const DEFAULT_VOLUME = 0.18;
 
 const Player = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
