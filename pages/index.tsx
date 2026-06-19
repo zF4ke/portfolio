@@ -123,14 +123,6 @@ const FEATURED: Project[] = [
     tech: ["JavaScript", "Neural nets", "Genetic algorithms"],
     code: "https://github.com/zF4ke/neuroevolution-flappy-bird",
   },
-  {
-    name: "2D Game Dev series",
-    tag: "Teaching",
-    blurb:
-      "The open-source code behind my YouTube series on building a 2D game in vanilla JavaScript, from the game loop and rendering to collisions and sprites. Made to teach the fundamentals with no engine in the way.",
-    tech: ["JavaScript", "HTML5 Canvas"],
-    code: "https://github.com/zF4ke/jogo2d-javascript",
-  },
 ];
 
 const EXPERIENCE = [
@@ -413,7 +405,6 @@ const Home = ({ songs, repos }: Props) => {
     "book2english",
     "traveller",
     "neuroevolution-flappy-bird",
-    "jogo2d-javascript",
     "portfolio",
   ]);
   const more = (repos || []).filter((r) => !featuredNames.has(r.name.toLowerCase())).slice(0, 10);
