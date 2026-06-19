@@ -98,6 +98,16 @@ const FEATURED: Project[] = [
     code: "https://github.com/zF4ke/ModernBazaar",
   },
   {
+    name: "Book2English",
+    tag: "AI tool",
+    blurb:
+      "Drop in any PDF and read it in your language with the original layout untouched. It pulls each page's text geometry with pdf.js, translates the blocks through OpenRouter, and fits the result back in place, prefetching pages ahead so you rarely wait. Everything runs in your browser.",
+    tech: ["Next.js", "TypeScript", "pdf.js", "OpenRouter"],
+    img: "/images/projects/book2english.png",
+    live: "https://book2english.zf4ke.me",
+    code: "https://github.com/zF4ke/Book2English",
+  },
+  {
     name: "Traveller",
     tag: "Game engine",
     blurb:
@@ -400,6 +410,7 @@ const Home = ({ songs, repos }: Props) => {
     "sophia",
     "timebox",
     "modernbazaar",
+    "book2english",
     "traveller",
     "neuroevolution-flappy-bird",
     "jogo2d-javascript",
