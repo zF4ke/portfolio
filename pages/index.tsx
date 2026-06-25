@@ -238,20 +238,21 @@ function TechChip({ name, icon }: { name: string; icon: string | null }) {
   );
 }
 
-function ProjectThumb({ p }: { p: Project }) {
+function ProjectThumb({ p, tall = false }: { p: Project; tall?: boolean }) {
+  const h = tall ? "h-72 sm:h-80" : "h-52";
   if (p.img) {
     return (
       /* eslint-disable-next-line @next/next/no-img-element */
       <img
         src={p.img}
         alt={p.name}
-        className="h-44 w-full object-cover object-top"
+        className={`${h} w-full object-cover object-top`}
         loading="lazy"
       />
     );
   }
   return (
-    <div className="flex h-44 w-full items-center justify-center bg-gradient-to-br from-accent-600/25 via-surface to-surface">
+    <div className={`flex ${h} w-full items-center justify-center bg-gradient-to-br from-accent-600/25 via-surface to-surface`}>
       <span className="font-jetbrains text-2xl font-600 text-accent-300/80">{p.name}</span>
     </div>
   );
@@ -261,7 +262,7 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   return (
     <article
       onClick={onOpen}
-      className="card reveal group cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface/70 hover:border-accent-500/40 hover:bg-surface"
+      className="card reveal group cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface/70 shadow-lift hover:border-accent-500/40 hover:bg-surface"
     >
       <div className="overflow-hidden border-b border-line">
         <div className="transition-transform duration-500 group-hover:scale-[1.03]">
@@ -299,9 +300,6 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
               <VscGithub className="h-4 w-4" /> Code
             </a>
           )}
-          <span className="ml-auto font-jetbrains text-[11px] text-zinc-600 group-hover:text-accent-300 transition-colors">
-            details +
-          </span>
         </div>
       </div>
     </article>
@@ -343,37 +341,45 @@ function ProjectRow({ p, onOpen }: { p: Project; onOpen: () => void }) {
           ))}
         </div>
       </div>
-      <div className="hidden shrink-0 items-center gap-4 text-sm sm:flex">
-        {p.live && (
-          <a
-            href={p.live}
-            target="_blank"
-            rel="noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="font-500 text-accent-300 transition-colors hover:text-accent-400"
-          >
-            Live
-          </a>
-        )}
-        {p.code && (
-          <a
-            href={p.code}
-            target="_blank"
-            rel="noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            aria-label="Code"
-            className="text-zinc-400 transition-colors hover:text-white"
-          >
-            <VscGithub className="h-[18px] w-[18px]" />
-          </a>
-        )}
+      <div className="flex shrink-0 items-center gap-4">
+        <div className="hidden items-center gap-4 text-sm sm:flex">
+          {p.live && (
+            <a
+              href={p.live}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-500 text-accent-300 transition-colors hover:text-accent-400"
+            >
+              Live
+            </a>
+          )}
+          {p.code && (
+            <a
+              href={p.code}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="Code"
+              className="text-zinc-400 transition-colors hover:text-white"
+            >
+              <VscGithub className="h-[18px] w-[18px]" />
+            </a>
+          )}
+        </div>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          className="h-[18px] w-[18px] shrink-0 text-zinc-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent-300"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
       </div>
-      <span
-        aria-hidden="true"
-        className="shrink-0 text-zinc-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent-300"
-      >
-        &rarr;
-      </span>
     </div>
   );
 }
@@ -405,7 +411,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
         >
           ✕
         </button>
-        <ProjectThumb p={{ ...p }} />
+        <ProjectThumb p={p} tall />
         <div className="p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="font-display text-2xl font-700 text-white">{p.name}</h3>
@@ -549,7 +555,7 @@ const Home = ({ songs, repos }: Props) => {
           <div className="grid-bg absolute inset-0"></div>
           <div className="relative z-10 mx-auto grid max-w-5xl gap-12 px-6 pt-20 pb-24 md:grid-cols-[1.15fr_1fr] md:items-center md:pt-24">
             <div>
-              <h1 className="reveal font-display text-5xl font-700 leading-[1.04] tracking-tight text-white sm:text-6xl">
+              <h1 className="reveal text-4xl font-700 leading-[1.07] tracking-tight text-white sm:text-5xl">
                 I like making <br className="hidden sm:block" />
                 computers <span className="text-accent-400">smarter</span>.
               </h1>
@@ -561,7 +567,7 @@ const Home = ({ songs, repos }: Props) => {
               <div className="reveal mt-8 flex flex-wrap items-center gap-3">
                 <a
                   href="#projects"
-                  className="btn-motion rounded-xl bg-white px-5 py-3 font-500 text-base text-zinc-950 hover:bg-zinc-200"
+                  className="rounded-xl bg-white px-5 py-3 font-500 text-base text-zinc-950 hover:bg-zinc-200 transition-colors"
                 >
                   See my work
                 </a>
@@ -569,14 +575,14 @@ const Home = ({ songs, repos }: Props) => {
                   href="https://github.com/zf4ke"
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-motion inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-3 font-500 text-zinc-200 hover:bg-white/5"
+                  className="inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-3 font-500 text-zinc-200 hover:bg-white/5 transition-colors"
                 >
                   <VscGithub className="h-[18px] w-[18px]" /> GitHub
                 </a>
               </div>
               <div className="reveal mt-8 flex items-center gap-4 text-zinc-500">
                 {SOCIALS.map(({ name, url, Icon }) => (
-                  <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={name} className="icon-life hover:text-white">
+                  <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={name} className="hover:text-white transition-colors">
                     <Icon className="h-[18px] w-[18px]" />
                   </a>
                 ))}
@@ -584,7 +590,7 @@ const Home = ({ songs, repos }: Props) => {
             </div>
 
             {/* terminal card */}
-            <div className="reveal">
+            <div className="reveal md:animate-floaty">
               <div className="overflow-hidden rounded-2xl border border-line bg-surface/80 shadow-2xl shadow-black/40 backdrop-blur">
                 <div className="flex items-center gap-1.5 border-b border-line bg-white/[0.02] px-4 py-3">
                   <span className="h-3 w-3 rounded-full bg-white/15"></span>
@@ -737,7 +743,7 @@ const Home = ({ songs, repos }: Props) => {
             <h2 className="reveal mt-3 font-display text-3xl font-700 tracking-tight text-white">What I work with</h2>
             <div className="mt-12 grid gap-5 md:grid-cols-2">
               {SKILLS.map((g) => (
-                <div key={g.label} className="reveal rounded-2xl border border-line bg-surface/60 p-6">
+                <div key={g.label} className="reveal rounded-2xl border border-line bg-surface/60 p-6 shadow-lift">
                   <h3 className="font-jetbrains text-sm text-accent-300">{g.label}</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {g.items.map((it) => (
@@ -771,7 +777,7 @@ const Home = ({ songs, repos }: Props) => {
         </section>
 
         {/* contact */}
-        <section id="contact" className="border-t border-line">
+        <section id="contact" className="aura border-t border-line">
           <div className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// say hi"}</p>
             <h2 className="reveal mt-4 font-display text-4xl font-700 tracking-tight text-white sm:text-5xl">

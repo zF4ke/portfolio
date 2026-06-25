@@ -44,27 +44,83 @@ button:focus-visible {
   background: rgba(255, 255, 255, 0.16);
 }
 
-/* ---------- hero backdrop: one calm static wash, no moving AI glow ---------- */
-.glow {
-  position: relative;
-}
-.glow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(58rem 28rem at 50% -18%, rgba(109, 113, 249, 0.1), transparent 62%);
-}
-
+/* ---------- hero backdrop: animated grid pan + drifting aurora glow ---------- */
 .grid-bg {
   z-index: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 46px 46px;
-  -webkit-mask-image: radial-gradient(84% 68% at 50% 0%, black 38%, transparent 100%);
-  mask-image: radial-gradient(84% 68% at 50% 0%, black 38%, transparent 100%);
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(92% 78% at 50% 0%, black 45%, transparent 100%);
+  mask-image: radial-gradient(92% 78% at 50% 0%, black 45%, transparent 100%);
+  animation: grid-pan 7s linear infinite;
+}
+
+/* diagonal drift, a clearer nod to the old moving pattern */
+@keyframes grid-pan {
+  to {
+    background-position: 40px 40px;
+  }
+}
+
+.glow {
+  position: relative;
+  background:
+    radial-gradient(46rem 26rem at 78% -12%, rgba(109, 113, 249, 0.09), transparent 60%),
+    radial-gradient(38rem 26rem at 2% 8%, rgba(88, 92, 230, 0.06), transparent 55%);
+}
+
+/* drifting aurora blobs, clearly alive but soft */
+.glow::before,
+.glow::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(72px);
+}
+.glow::before {
+  width: 30rem;
+  height: 22rem;
+  top: -6rem;
+  left: 8%;
+  background: rgba(124, 92, 255, 0.12);
+  animation: drift-a 14s ease-in-out infinite;
+}
+.glow::after {
+  width: 26rem;
+  height: 20rem;
+  top: -4rem;
+  right: 6%;
+  background: rgba(88, 92, 230, 0.1);
+  animation: drift-b 18s ease-in-out infinite;
+}
+
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(90px, 52px) scale(1.12); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-82px, 42px) scale(0.95); }
+}
+
+/* ---------- contact "moment": one calm, static, centered accent pool ---------- */
+.aura {
+  position: relative;
+  isolation: isolate;
+}
+.aura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(46rem 26rem at 50% 116%, rgba(109, 113, 249, 0.14), transparent 60%),
+    radial-gradient(30rem 16rem at 50% -20%, rgba(139, 145, 251, 0.06), transparent 60%);
 }
 
 /* ---------- motion system: two easings from DESIGN_PRINCIPLES ---------- */
@@ -174,7 +230,11 @@ button:focus-visible {
   .ulink {
     transition: none;
   }
-  .grid-in {
+  .grid-in,
+  .grid-bg,
+  .glow::before,
+  .glow::after,
+  .animate-floaty {
     animation: none;
   }
   .btn-motion:hover,

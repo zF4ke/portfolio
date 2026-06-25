@@ -36,6 +36,15 @@ module.exports = {
       boxShadow: {
         lift: '0 10px 30px -12px rgba(8,7,14,0.7)',
       },
+      keyframes: {
+        floaty: {
+          '0%,100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+      },
+      animation: {
+        floaty: 'floaty 6s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
