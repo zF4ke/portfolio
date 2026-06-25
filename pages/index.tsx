@@ -308,6 +308,76 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   );
 }
 
+function ProjectRow({ p, onOpen }: { p: Project; onOpen: () => void }) {
+  return (
+    <div
+      onClick={onOpen}
+      className="group flex cursor-pointer items-center gap-4 px-2 py-4 transition-colors duration-200 hover:bg-surface/50 sm:gap-5"
+    >
+      <div className="h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-line sm:h-[4.5rem] sm:w-32">
+        {p.img ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={p.img}
+            alt={p.name}
+            loading="lazy"
+            className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="grid h-full w-full place-items-center bg-gradient-to-br from-accent-600/25 to-surface font-jetbrains text-xs text-accent-300/80">
+            {p.name.split(" ")[0]}
+          </div>
+        )}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2.5">
+          <h3 className="font-display text-base font-600 text-white">{p.name}</h3>
+          <span className="rounded-full bg-accent-500/12 px-2 py-0.5 font-jetbrains text-[10px] text-accent-300 ring-1 ring-accent-500/20">
+            {p.tag}
+          </span>
+        </div>
+        <p className="mt-1 line-clamp-1 text-sm text-zinc-400">{p.blurb}</p>
+        <div className="mt-1.5 hidden flex-wrap gap-x-3 gap-y-1 font-jetbrains text-[11px] text-zinc-600 sm:flex">
+          {p.tech.slice(0, 4).map((t) => (
+            <span key={t}>{t}</span>
+          ))}
+        </div>
+      </div>
+      <div className="hidden shrink-0 items-center gap-4 text-sm sm:flex">
+        {p.live && (
+          <a
+            href={p.live}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="font-500 text-accent-300 transition-colors hover:text-accent-400"
+          >
+            Live
+          </a>
+        )}
+        {p.code && (
+          <a
+            href={p.code}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Code"
+            className="text-zinc-400 transition-colors hover:text-white"
+          >
+            <VscGithub className="h-[18px] w-[18px]" />
+          </a>
+        )}
+      </div>
+      <span
+        aria-hidden="true"
+        className="shrink-0 text-zinc-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent-300"
+      >
+        &rarr;
+      </span>
+    </div>
+  );
+}
+
 function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -386,25 +456,8 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
 
 const Home = ({ songs, repos }: Props) => {
   const [selected, setSelected] = useState<Project | null>(null);
-  const [filter, setFilter] = useState("all");
-
-  const CATS: Record<string, string> = {
-    Sophia: "ai",
-    Timebox: "ai",
-    "Modern Bazaar": "web",
-    Book2English: "web",
-    Poeta: "web",
-    Traveller: "systems",
-    Neuroevolution: "systems",
-  };
-  const FILTERS = [
-    { key: "all", label: "All" },
-    { key: "ai", label: "AI" },
-    { key: "web", label: "Web" },
-    { key: "systems", label: "Systems" },
-  ];
-  const shown = filter === "all" ? FEATURED : FEATURED.filter((p) => CATS[p.name] === filter);
-  const activeIdx = Math.max(0, FILTERS.findIndex((f) => f.key === filter));
+  const featured = FEATURED.slice(0, 2);
+  const rest = FEATURED.slice(2);
 
   useEffect(() => {
     const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -603,30 +656,17 @@ const Home = ({ songs, repos }: Props) => {
               can poke at right now.
             </p>
 
-            {/* segmented filter with a sliding pill */}
-            <div className="reveal mt-8">
-              <div className="relative inline-grid w-[min(100%,22rem)] grid-cols-4 rounded-xl border border-line bg-surface/60 p-1">
-                <div
-                  className="seg-indicator pointer-events-none absolute inset-y-1 rounded-lg bg-accent-500"
-                  style={{ left: "0.25rem", width: "calc((100% - 0.5rem) / 4)", transform: `translateX(calc(${activeIdx} * 100%))` }}
-                ></div>
-                {FILTERS.map((f) => (
-                  <button
-                    key={f.key}
-                    onClick={() => setFilter(f.key)}
-                    className={`relative z-10 rounded-lg py-1.5 text-sm font-500 transition-colors duration-200 ${
-                      filter === f.key ? "text-white" : "text-zinc-400 hover:text-zinc-200"
-                    }`}
-                  >
-                    {f.label}
-                  </button>
-                ))}
-              </div>
+            {/* two flagships as large image-forward cards */}
+            <div className="reveal mt-12 grid gap-5 sm:grid-cols-2">
+              {featured.map((p) => (
+                <ProjectCard key={p.name} p={p} onOpen={() => setSelected(p)} />
+              ))}
             </div>
 
-            <div key={filter} className="grid-in mt-8 grid gap-5 sm:grid-cols-2">
-              {shown.map((p) => (
-                <ProjectCard key={p.name} p={p} onOpen={() => setSelected(p)} />
+            {/* the rest as a compact index */}
+            <div className="reveal mt-6 divide-y divide-line border-t border-line">
+              {rest.map((p) => (
+                <ProjectRow key={p.name} p={p} onOpen={() => setSelected(p)} />
               ))}
             </div>
 
