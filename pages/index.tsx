@@ -238,20 +238,21 @@ function TechChip({ name, icon }: { name: string; icon: string | null }) {
   );
 }
 
-function ProjectThumb({ p }: { p: Project }) {
+function ProjectThumb({ p, tall = false }: { p: Project; tall?: boolean }) {
+  const h = tall ? "h-72 sm:h-80" : "h-52";
   if (p.img) {
     return (
       /* eslint-disable-next-line @next/next/no-img-element */
       <img
         src={p.img}
         alt={p.name}
-        className="h-44 w-full object-cover object-top"
+        className={`${h} w-full object-cover object-top`}
         loading="lazy"
       />
     );
   }
   return (
-    <div className="flex h-44 w-full items-center justify-center bg-gradient-to-br from-accent-600/25 via-surface to-surface">
+    <div className={`flex ${h} w-full items-center justify-center bg-gradient-to-br from-accent-600/25 via-surface to-surface`}>
       <span className="font-jetbrains text-2xl font-600 text-accent-300/80">{p.name}</span>
     </div>
   );
@@ -261,7 +262,7 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   return (
     <article
       onClick={onOpen}
-      className="card reveal group cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface/70 hover:border-accent-500/40 hover:bg-surface"
+      className="card reveal group cursor-pointer overflow-hidden rounded-2xl border border-line bg-surface/70 shadow-lift hover:border-accent-500/40 hover:bg-surface"
     >
       <div className="overflow-hidden border-b border-line">
         <div className="transition-transform duration-500 group-hover:scale-[1.03]">
@@ -299,12 +300,87 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
               <VscGithub className="h-4 w-4" /> Code
             </a>
           )}
-          <span className="ml-auto font-jetbrains text-[11px] text-zinc-600 group-hover:text-accent-300 transition-colors">
-            details +
-          </span>
         </div>
       </div>
     </article>
+  );
+}
+
+function ProjectRow({ p, onOpen }: { p: Project; onOpen: () => void }) {
+  return (
+    <div
+      onClick={onOpen}
+      className="group flex cursor-pointer items-center gap-4 px-2 py-4 transition-colors duration-200 hover:bg-surface/50 sm:gap-5"
+    >
+      <div className="h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-line sm:h-[4.5rem] sm:w-32">
+        {p.img ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={p.img}
+            alt={p.name}
+            loading="lazy"
+            className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="grid h-full w-full place-items-center bg-gradient-to-br from-accent-600/25 to-surface font-jetbrains text-xs text-accent-300/80">
+            {p.name.split(" ")[0]}
+          </div>
+        )}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2.5">
+          <h3 className="font-display text-base font-600 text-white">{p.name}</h3>
+          <span className="rounded-full bg-accent-500/12 px-2 py-0.5 font-jetbrains text-[10px] text-accent-300 ring-1 ring-accent-500/20">
+            {p.tag}
+          </span>
+        </div>
+        <p className="mt-1 line-clamp-1 text-sm text-zinc-400">{p.blurb}</p>
+        <div className="mt-1.5 hidden flex-wrap gap-x-3 gap-y-1 font-jetbrains text-[11px] text-zinc-600 sm:flex">
+          {p.tech.slice(0, 4).map((t) => (
+            <span key={t}>{t}</span>
+          ))}
+        </div>
+      </div>
+      <div className="flex shrink-0 items-center gap-4">
+        <div className="hidden items-center gap-4 text-sm sm:flex">
+          {p.live && (
+            <a
+              href={p.live}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-500 text-accent-300 transition-colors hover:text-accent-400"
+            >
+              Live
+            </a>
+          )}
+          {p.code && (
+            <a
+              href={p.code}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="Code"
+              className="text-zinc-400 transition-colors hover:text-white"
+            >
+              <VscGithub className="h-[18px] w-[18px]" />
+            </a>
+          )}
+        </div>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          className="h-[18px] w-[18px] shrink-0 text-zinc-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent-300"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
@@ -335,10 +411,10 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
         >
           ✕
         </button>
-        <ProjectThumb p={{ ...p }} />
+        <ProjectThumb p={p} tall />
         <div className="p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-3">
-            <h3 className="text-2xl font-700 text-white">{p.name}</h3>
+            <h3 className="font-display text-2xl font-700 text-white">{p.name}</h3>
             <span className="rounded-full bg-accent-500/12 px-2.5 py-1 font-jetbrains text-[11px] text-accent-300 ring-1 ring-accent-500/20">
               {p.tag}
             </span>
@@ -357,7 +433,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
                 href={p.live}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-2.5 font-500 text-white hover:bg-accent-400 transition-colors"
+                className="btn-motion inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-2.5 font-500 text-white hover:bg-accent-400"
               >
                 Open live demo <span aria-hidden="true">↗</span>
               </a>
@@ -367,7 +443,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
                 href={p.code}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-2.5 font-500 text-zinc-200 hover:bg-white/5 transition-colors"
+                className="btn-motion inline-flex items-center gap-2 rounded-xl border border-line bg-white/[0.02] px-5 py-2.5 font-500 text-zinc-200 hover:bg-white/5"
               >
                 <VscGithub className="h-[18px] w-[18px]" /> View code
               </a>
@@ -386,6 +462,8 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
 
 const Home = ({ songs, repos }: Props) => {
   const [selected, setSelected] = useState<Project | null>(null);
+  const featured = FEATURED.slice(0, 2);
+  const rest = FEATURED.slice(2);
 
   useEffect(() => {
     const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -454,7 +532,7 @@ const Home = ({ songs, repos }: Props) => {
             <a
               href="/Pedro-Silva-CV.pdf"
               download
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-500 text-zinc-300 hover:border-white/25 hover:bg-white/5 hover:text-white transition-colors"
+              className="btn-motion inline-flex items-center gap-1.5 rounded-lg border border-line px-3.5 py-2 text-sm font-500 text-zinc-300 hover:border-white/25 hover:bg-white/5 hover:text-white"
             >
               <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 3v12m0 0l4-4m-4 4l-4-4M5 21h14" />
@@ -463,7 +541,7 @@ const Home = ({ songs, repos }: Props) => {
             </a>
             <a
               href="mailto:pedrohsilva955@gmail.com"
-              className="rounded-lg bg-accent-500 px-3.5 py-2 text-sm font-500 text-white hover:bg-accent-400 transition-colors"
+              className="btn-motion rounded-lg bg-accent-500 px-3.5 py-2 text-sm font-500 text-white hover:bg-accent-400"
             >
               Get in touch
             </a>
@@ -578,15 +656,23 @@ const Home = ({ songs, repos }: Props) => {
         <section id="projects" className="border-t border-line">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// projects"}</p>
-            <h2 className="reveal mt-3 text-3xl font-700 tracking-tight text-white">Things I&apos;ve built</h2>
+            <h2 className="reveal mt-3 font-display text-3xl font-700 tracking-tight text-white">Things I&apos;ve built</h2>
             <p className="reveal mt-3 max-w-xl text-zinc-400">
-              A few projects I am proud of. Click any of them for a closer look. Three have a live demo you
+              A few projects I am proud of. Click any of them for a closer look. Five have a live demo you
               can poke at right now.
             </p>
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2">
-              {FEATURED.map((p) => (
+            {/* two flagships as large image-forward cards */}
+            <div className="reveal mt-12 grid gap-5 sm:grid-cols-2">
+              {featured.map((p) => (
                 <ProjectCard key={p.name} p={p} onOpen={() => setSelected(p)} />
+              ))}
+            </div>
+
+            {/* the rest as a compact index */}
+            <div className="reveal mt-6 divide-y divide-line border-t border-line">
+              {rest.map((p) => (
+                <ProjectRow key={p.name} p={p} onOpen={() => setSelected(p)} />
               ))}
             </div>
 
@@ -615,7 +701,7 @@ const Home = ({ songs, repos }: Props) => {
         <section id="experience" className="border-t border-line bg-surface/30">
           <div className="mx-auto max-w-3xl px-6 py-20 md:py-28">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// experience"}</p>
-            <h2 className="reveal mt-3 text-3xl font-700 tracking-tight text-white">Where I&apos;ve put it to work</h2>
+            <h2 className="reveal mt-3 font-display text-3xl font-700 tracking-tight text-white">Where I&apos;ve put it to work</h2>
             <div className="mt-12">
               {EXPERIENCE.map((e) => (
                 <div
@@ -654,10 +740,10 @@ const Home = ({ songs, repos }: Props) => {
         <section className="border-t border-line">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-24">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// toolbox"}</p>
-            <h2 className="reveal mt-3 text-3xl font-700 tracking-tight text-white">What I work with</h2>
+            <h2 className="reveal mt-3 font-display text-3xl font-700 tracking-tight text-white">What I work with</h2>
             <div className="mt-12 grid gap-5 md:grid-cols-2">
               {SKILLS.map((g) => (
-                <div key={g.label} className="reveal rounded-2xl border border-line bg-surface/60 p-6">
+                <div key={g.label} className="reveal rounded-2xl border border-line bg-surface/60 p-6 shadow-lift">
                   <h3 className="font-jetbrains text-sm text-accent-300">{g.label}</h3>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {g.items.map((it) => (
@@ -674,7 +760,7 @@ const Home = ({ songs, repos }: Props) => {
         <section className="border-t border-line bg-surface/30">
           <div className="mx-auto max-w-3xl px-6 py-20 md:py-24">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// freelance"}</p>
-            <h2 className="reveal mt-3 text-3xl font-700 tracking-tight text-white">Need something built?</h2>
+            <h2 className="reveal mt-3 font-display text-3xl font-700 tracking-tight text-white">Need something built?</h2>
             <p className="reveal mt-4 text-lg leading-relaxed text-zinc-400">
               I take on small, well-scoped jobs with a fixed quote and a 24 to 48h turnaround. Websites and
               landing pages, bug fixes, Python or JavaScript automation, AI integrations, and data work.
@@ -691,10 +777,10 @@ const Home = ({ songs, repos }: Props) => {
         </section>
 
         {/* contact */}
-        <section id="contact" className="border-t border-line">
+        <section id="contact" className="aura border-t border-line">
           <div className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// say hi"}</p>
-            <h2 className="reveal mt-4 text-4xl font-700 tracking-tight text-white sm:text-5xl">
+            <h2 className="reveal mt-4 font-display text-4xl font-700 tracking-tight text-white sm:text-5xl">
               Let&apos;s build something.
             </h2>
             <p className="reveal mx-auto mt-5 max-w-md text-lg text-zinc-400">
@@ -703,14 +789,14 @@ const Home = ({ songs, repos }: Props) => {
             <div className="reveal mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
                 href="mailto:pedrohsilva955@gmail.com"
-                className="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 font-500 text-white hover:bg-accent-400 transition-colors"
+                className="btn-motion inline-flex items-center gap-2 rounded-xl bg-accent-500 px-6 py-3.5 font-500 text-white hover:bg-accent-400"
               >
                 <HiOutlineMail className="h-5 w-5" /> pedrohsilva955@gmail.com
               </a>
             </div>
             <div className="reveal mt-8 flex items-center justify-center gap-5 text-zinc-500">
               {SOCIALS.map(({ name, url, Icon }) => (
-                <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={name} className="hover:text-white transition-colors">
+                <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={name} className="icon-life hover:text-white">
                   <Icon className="h-5 w-5" />
                 </a>
               ))}

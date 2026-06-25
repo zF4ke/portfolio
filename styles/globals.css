@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -9,7 +9,7 @@ body {
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
-  background-color: #0f0e15;
+  background-color: #0e0d14;
 }
 
 * {
@@ -22,22 +22,29 @@ a {
 }
 
 ::selection {
-  background: rgba(109, 113, 249, 0.32);
+  background: rgba(109, 113, 249, 0.28);
 }
 
-/* slim, themed scrollbar */
+/* accent focus ring, applied globally to interactive elements */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(109, 113, 249, 0.7);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.09);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.16);
 }
 
-/* faint grid backdrop for the hero */
+/* ---------- hero backdrop: animated grid pan + drifting aurora glow ---------- */
 .grid-bg {
   z-index: 0;
   background-image:
@@ -100,51 +107,102 @@ a {
   50% { transform: translate(-82px, 42px) scale(0.95); }
 }
 
-/* scroll reveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+/* ---------- contact "moment": one calm, static, centered accent pool ---------- */
+.aura {
+  position: relative;
+  isolation: isolate;
 }
-.reveal.in {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  html {
-    scroll-behavior: auto;
-  }
-  .grid-bg,
-  .glow::before,
-  .glow::after {
-    animation: none;
-  }
+.aura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(46rem 26rem at 50% 116%, rgba(109, 113, 249, 0.14), transparent 60%),
+    radial-gradient(30rem 16rem at 50% -20%, rgba(139, 145, 251, 0.06), transparent 60%);
 }
 
-/* animated underline for inline links */
+/* ---------- motion system: two easings from DESIGN_PRINCIPLES ---------- */
+/* spring  cubic-bezier(0.34, 1.56, 0.64, 1)  -> physical (press, toggles, pills) */
+/* smooth  cubic-bezier(0.16, 1, 0.3, 1)      -> opacity & movement (fades, lifts) */
+
+/* button: lift on hover, press on active */
+.btn-motion {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+.btn-motion:hover {
+  transform: translateY(-1px);
+}
+.btn-motion:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 120ms;
+}
+
+/* icons: a touch of life on hover */
+.icon-life {
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1), color 160ms ease;
+}
+.icon-life:hover {
+  transform: scale(1.18) rotate(-4deg);
+}
+
+/* project / surface cards: spring-weighted hover, gentle press */
+.card {
+  position: relative;
+  will-change: transform;
+  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease, background-color 260ms ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+}
+.card:active {
+  transform: translateY(-2px) scale(0.992);
+  transition-duration: 140ms;
+}
+
+/* segmented control sliding indicator */
+.seg-indicator {
+  transition: transform 340ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* inline link underline that grows from the left */
 .ulink {
-  background-image: linear-gradient(#8b8efb, #8b8efb);
+  background-image: linear-gradient(#8b91fb, #8b91fb);
   background-size: 0 1.5px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size 0.3s ease;
+  transition: background-size 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .ulink:hover {
   background-size: 100% 1.5px;
 }
 
-/* card cursor glow */
-.card {
-  position: relative;
-  transition: transform 0.35s cubic-bezier(0.2, 0.6, 0.2, 1), border-color 0.3s ease, background-color 0.3s ease;
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.card:hover {
-  transform: translateY(-4px);
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* filtered project grid fades in when the filter changes */
+.grid-in {
+  animation: grid-in 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes grid-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .emoji {
@@ -155,11 +213,44 @@ a {
   vertical-align: -0.12em;
 }
 
+/* ---------- reduced motion: collapse everything to instant ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btn-motion,
+  .icon-life,
+  .card,
+  .seg-indicator,
+  .ulink {
+    transition: none;
+  }
+  .grid-in,
+  .grid-bg,
+  .glow::before,
+  .glow::after,
+  .animate-floaty {
+    animation: none;
+  }
+  .btn-motion:hover,
+  .icon-life:hover,
+  .card:hover,
+  .btn-motion:active,
+  .card:active {
+    transform: none;
+  }
+}
+
 @layer components {
   .player-button {
-    @apply h-9 w-9 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;
+    @apply h-9 w-9 cursor-pointer hover:brightness-110 active:scale-90 hover:scale-110 transition-transform duration-150;
   }
   .player-volume-button {
-    @apply h-5 w-5 cursor-pointer hover:brightness-110 active:brightness-75 hover:scale-110 transition transform duration-150 ease-in-out;
+    @apply h-5 w-5 cursor-pointer hover:brightness-110 active:scale-90 hover:scale-110 transition-transform duration-150;
   }
 }
