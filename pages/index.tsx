@@ -108,6 +108,16 @@ const FEATURED: Project[] = [
     code: "https://github.com/zF4ke/Book2English",
   },
   {
+    name: "Poeta",
+    tag: "NLP",
+    blurb:
+      "A local-first writing desk for rap and poetry that surfaces phonetically accurate rhymes as you type. Portuguese runs through a from-scratch phonetic engine (stress detection, nasal vowels, the lot); English comes from the CMU Pronouncing Dictionary. Optional AI line suggestions, all in your browser.",
+    tech: ["Next.js", "TypeScript", "TipTap", "OpenRouter"],
+    img: "/images/projects/poeta.png",
+    live: "https://poeta.zf4ke.me",
+    code: "https://github.com/zF4ke/poeta",
+  },
+  {
     name: "Traveller",
     tag: "Game engine",
     blurb:
@@ -403,6 +413,7 @@ const Home = ({ songs, repos }: Props) => {
     "timebox",
     "modernbazaar",
     "book2english",
+    "poeta",
     "traveller",
     "neuroevolution-flappy-bird",
     "portfolio",
