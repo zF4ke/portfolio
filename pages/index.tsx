@@ -98,13 +98,13 @@ const FEATURED: Project[] = [
     code: "https://github.com/zF4ke/timebox",
   },
   {
-    name: "Buckshot Roulette Solver",
-    tag: "Game solver",
+    name: "ATLAS Onboard Video & SLAM",
+    tag: "Drones",
     blurb:
-      "A desktop companion for the game Buckshot Roulette. You log what is on the table and a memoized expectimax engine plays every branch of the round to the end, then calls the move with the best expected outcome, the live odds, and a one-line reason, usually within a few milliseconds. No account, runs fully offline.",
-    tech: ["Electron", "React", "TypeScript", "Python"],
-    img: "/images/projects/buckshot.png",
-    code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
+      "Onboard software and a ground-station app for the ATLAS drone. A terminal menu on the ground drives a low-latency video downlink over WifiBroadcast (with a ZeroTier RTSP backup), onboard ORB-SLAM3 on a Jetson with an Intel RealSense, and realtime YOLO11n person detection through DeepStream and TensorRT, each toggled live over MAVLink. A supervisor keeps the modes running and restarts any that die.",
+    tech: ["Python", "GStreamer", "ORB-SLAM3", "TensorRT", "MAVLink"],
+    img: "/images/projects/atlas-swai.png",
+    isPrivate: true,
   },
   {
     name: "Book2English",
@@ -133,6 +133,15 @@ const FEATURED: Project[] = [
       "A multiplayer RPG played inside Discord where decrypting ciphers is the core mechanic. A platform-agnostic game engine with zero Discord imports, data-driven content, swappable storage, and a Next.js authoring dashboard. Its test suite plays entire quests in under a second.",
     tech: ["TS monorepo", "MongoDB", "discord.js", "Next.js"],
     isPrivate: true,
+  },
+  {
+    name: "Buckshot Roulette Solver",
+    tag: "Game solver",
+    blurb:
+      "A desktop companion for the game Buckshot Roulette. You log what is on the table and a memoized expectimax engine plays every branch of the round to the end, then calls the move with the best expected outcome, the live odds, and a one-line reason, usually within a few milliseconds. No account, runs fully offline.",
+    tech: ["Electron", "React", "TypeScript", "Python"],
+    img: "/images/projects/buckshot.png",
+    code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
   },
   {
     name: "Neuroevolution",
