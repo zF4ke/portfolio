@@ -78,6 +78,16 @@ const FEATURED: Project[] = [
     code: "https://github.com/zF4ke/sophia",
   },
   {
+    name: "Modern Bazaar",
+    tag: "Full-stack",
+    blurb:
+      "An enterprise-grade market analyzer for a live game economy. A Spring Boot ingestion backend polls and compacts market data, a Next.js dashboard surfaces real-time analytics and trading strategies, all wired with production-style observability.",
+    tech: ["Spring Boot", "Next.js", "PostgreSQL", "Grafana", "Docker"],
+    img: "/images/projects/modern-bazaar.png",
+    live: "https://modern-bazaar.vercel.app",
+    code: "https://github.com/zF4ke/ModernBazaar",
+  },
+  {
     name: "Timebox",
     tag: "Multi-agent",
     blurb:
@@ -88,14 +98,13 @@ const FEATURED: Project[] = [
     code: "https://github.com/zF4ke/timebox",
   },
   {
-    name: "Modern Bazaar",
-    tag: "Full-stack",
+    name: "Buckshot Roulette Solver",
+    tag: "Game solver",
     blurb:
-      "An enterprise-grade market analyzer for a live game economy. A Spring Boot ingestion backend polls and compacts market data, a Next.js dashboard surfaces real-time analytics and trading strategies, all wired with production-style observability.",
-    tech: ["Spring Boot", "Next.js", "PostgreSQL", "Grafana", "Docker"],
-    img: "/images/projects/modern-bazaar.png",
-    live: "https://modern-bazaar.vercel.app",
-    code: "https://github.com/zF4ke/ModernBazaar",
+      "A desktop companion for the game Buckshot Roulette. You log what is on the table and a memoized expectimax engine plays every branch of the round to the end, then calls the move with the best expected outcome, the live odds, and a one-line reason, usually within a few milliseconds. No account, runs fully offline.",
+    tech: ["Electron", "React", "TypeScript", "Python"],
+    img: "/images/projects/buckshot.png",
+    code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
   },
   {
     name: "Book2English",
