@@ -44,6 +44,7 @@ type Song = {
 
 type Project = {
   name: string;
+  umbrella?: string;
   tag: string;
   blurb: string;
   tech: string[];
@@ -70,6 +71,7 @@ const DEV = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 const FEATURED: Project[] = [
   {
     name: "Sophia",
+    umbrella: "AI",
     tag: "AI agent",
     blurb:
       "A conversational AI agent for Discord that searches your server history and acts on it in plain language, with admin approval on every change. 33 tools running in an agentic loop, with budget limits and role-based access baked in.",
@@ -80,6 +82,7 @@ const FEATURED: Project[] = [
   },
   {
     name: "Modern Bazaar",
+    umbrella: "Web",
     tag: "Full-stack",
     blurb:
       "An enterprise-grade market analyzer for a live game economy. A Spring Boot ingestion backend polls and compacts market data, a Next.js dashboard surfaces real-time analytics and trading strategies, all wired with production-style observability.",
@@ -90,7 +93,8 @@ const FEATURED: Project[] = [
   },
   {
     name: "ATLAS Onboard Video & SLAM",
-    tag: "Robotics",
+    umbrella: "Robotics",
+    tag: "Drones",
     blurb:
       "Onboard software and a ground-station app for the ATLAS drone. A terminal menu on the ground drives a low-latency video downlink over WifiBroadcast (with a ZeroTier RTSP backup), onboard ORB-SLAM3 on a Jetson with an Intel RealSense, and realtime YOLO11n person detection through DeepStream and TensorRT, each toggled live over MAVLink. A supervisor keeps the modes running and restarts any that die.",
     tech: ["Python", "GStreamer", "ORB-SLAM3", "TensorRT", "MAVLink"],
@@ -99,7 +103,8 @@ const FEATURED: Project[] = [
   },
   {
     name: "Timebox",
-    tag: "AI agents",
+    umbrella: "AI",
+    tag: "Multi-agent",
     blurb:
       "A desktop app where five AI agents draft, critique and vote on your weekly schedule under a quorum you control, then export it straight to your calendar. It ships with its own benchmark harness for comparing models on cost and quality.",
     tech: ["Electron", "React", "TypeScript", "OpenRouter"],
@@ -109,6 +114,7 @@ const FEATURED: Project[] = [
   },
   {
     name: "Book2English",
+    umbrella: "AI",
     tag: "AI tool",
     blurb:
       "Drop in any PDF and read it in your language with the original layout untouched. It pulls each page's text geometry with pdf.js, translates the blocks through OpenRouter, and fits the result back in place, prefetching pages ahead so you rarely wait. Everything runs in your browser.",
@@ -119,7 +125,8 @@ const FEATURED: Project[] = [
   },
   {
     name: "Poeta",
-    tag: "AI tool",
+    umbrella: "AI",
+    tag: "NLP",
     blurb:
       "A local-first writing desk for rap and poetry that surfaces phonetically accurate rhymes as you type. Portuguese runs through a from-scratch phonetic engine (stress detection, nasal vowels, the lot); English comes from the CMU Pronouncing Dictionary. Optional AI line suggestions, all in your browser.",
     tech: ["Next.js", "TypeScript", "TipTap", "OpenRouter"],
@@ -129,6 +136,7 @@ const FEATURED: Project[] = [
   },
   {
     name: "Buckshot Roulette Solver",
+    umbrella: "Games",
     tag: "Game solver",
     blurb:
       "A desktop companion for the game Buckshot Roulette. You log what is on the table and a memoized expectimax engine plays every branch of the round to the end, then calls the move with the best expected outcome, the live odds, and a one-line reason, usually within a few milliseconds. No account, runs fully offline.",
@@ -139,6 +147,7 @@ const FEATURED: Project[] = [
   },
   {
     name: "Traveller",
+    umbrella: "Games",
     tag: "Game engine",
     blurb:
       "A multiplayer RPG played inside Discord where decrypting ciphers is the core mechanic. A platform-agnostic game engine with zero Discord imports, data-driven content, swappable storage, and a Next.js authoring dashboard. Its test suite plays entire quests in under a second.",
@@ -147,6 +156,7 @@ const FEATURED: Project[] = [
   },
   {
     name: "Neuroevolution",
+    umbrella: "AI",
     tag: "AI / ML",
     blurb:
       "Flappy Bird that teaches itself to fly. Neural networks evolved with a genetic algorithm, visualized generation by generation in the browser so you can watch the population get better in real time.",
@@ -278,6 +288,22 @@ function ProjectThumb({ p, tall = false }: { p: Project; tall?: boolean }) {
   );
 }
 
+function TagPills({ umbrella, tag, size = "sm" }: { umbrella?: string; tag: string; size?: "sm" | "md" }) {
+  const pad = size === "md" ? "px-2.5 py-1 text-[11px]" : "px-2 py-0.5 text-[10px]";
+  return (
+    <span className="flex flex-wrap items-center gap-1.5">
+      {umbrella && (
+        <span className={`rounded-full bg-white/[0.05] font-jetbrains text-zinc-400 ring-1 ring-white/10 ${pad}`}>
+          {umbrella}
+        </span>
+      )}
+      <span className={`rounded-full bg-accent-500/12 font-jetbrains text-accent-300 ring-1 ring-accent-500/20 ${pad}`}>
+        {tag}
+      </span>
+    </span>
+  );
+}
+
 function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   return (
     <article
@@ -292,9 +318,9 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
       <div className="p-5">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-lg font-600 text-white">{p.name}</h3>
-          <span className="shrink-0 rounded-full bg-accent-500/12 px-2.5 py-1 font-jetbrains text-[11px] text-accent-300 ring-1 ring-accent-500/20">
-            {p.tag}
-          </span>
+          <div className="shrink-0">
+            <TagPills umbrella={p.umbrella} tag={p.tag} size="md" />
+          </div>
         </div>
         <p className="mt-2.5 line-clamp-2 text-sm leading-relaxed text-zinc-400">{p.blurb}</p>
         <div className="mt-4 flex items-center gap-4 text-sm">
@@ -359,11 +385,9 @@ function ProjectRow({ p, onOpen }: { p: Project; onOpen: () => void }) {
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2">
           <h3 className="font-display text-base font-600 text-white">{p.name}</h3>
-          <span className="rounded-full bg-accent-500/12 px-2 py-0.5 font-jetbrains text-[10px] text-accent-300 ring-1 ring-accent-500/20">
-            {p.tag}
-          </span>
+          <TagPills umbrella={p.umbrella} tag={p.tag} size="sm" />
         </div>
         <p className="mt-1 line-clamp-1 text-sm text-zinc-400">{p.blurb}</p>
         <div className="mt-1.5 hidden flex-wrap gap-x-3 gap-y-1 font-jetbrains text-[11px] text-zinc-600 sm:flex">
@@ -457,9 +481,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
         <div className="p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-3">
             <h3 className="font-display text-2xl font-700 text-white">{p.name}</h3>
-            <span className="rounded-full bg-accent-500/12 px-2.5 py-1 font-jetbrains text-[11px] text-accent-300 ring-1 ring-accent-500/20">
-              {p.tag}
-            </span>
+            <TagPills umbrella={p.umbrella} tag={p.tag} size="md" />
           </div>
           <p className="mt-4 leading-relaxed text-zinc-300">{p.blurb}</p>
           <div className="mt-5 flex flex-wrap gap-2">
