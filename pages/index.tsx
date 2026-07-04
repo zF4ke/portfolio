@@ -89,23 +89,23 @@ const FEATURED: Project[] = [
     code: "https://github.com/zF4ke/ModernBazaar",
   },
   {
+    name: "ATLAS Onboard Video & SLAM",
+    tag: "Robotics",
+    blurb:
+      "Onboard software and a ground-station app for the ATLAS drone. A terminal menu on the ground drives a low-latency video downlink over WifiBroadcast (with a ZeroTier RTSP backup), onboard ORB-SLAM3 on a Jetson with an Intel RealSense, and realtime YOLO11n person detection through DeepStream and TensorRT, each toggled live over MAVLink. A supervisor keeps the modes running and restarts any that die.",
+    tech: ["Python", "GStreamer", "ORB-SLAM3", "TensorRT", "MAVLink"],
+    img: "/images/projects/atlas-swai.png",
+    isPrivate: true,
+  },
+  {
     name: "Timebox",
-    tag: "Multi-agent",
+    tag: "AI agents",
     blurb:
       "A desktop app where five AI agents draft, critique and vote on your weekly schedule under a quorum you control, then export it straight to your calendar. It ships with its own benchmark harness for comparing models on cost and quality.",
     tech: ["Electron", "React", "TypeScript", "OpenRouter"],
     img: "/images/projects/timebox.png",
     live: "https://zf4ke.github.io/timebox",
     code: "https://github.com/zF4ke/timebox",
-  },
-  {
-    name: "ATLAS Onboard Video & SLAM",
-    tag: "Drones",
-    blurb:
-      "Onboard software and a ground-station app for the ATLAS drone. A terminal menu on the ground drives a low-latency video downlink over WifiBroadcast (with a ZeroTier RTSP backup), onboard ORB-SLAM3 on a Jetson with an Intel RealSense, and realtime YOLO11n person detection through DeepStream and TensorRT, each toggled live over MAVLink. A supervisor keeps the modes running and restarts any that die.",
-    tech: ["Python", "GStreamer", "ORB-SLAM3", "TensorRT", "MAVLink"],
-    img: "/images/projects/atlas-swai.png",
-    isPrivate: true,
   },
   {
     name: "Book2English",
@@ -119,21 +119,13 @@ const FEATURED: Project[] = [
   },
   {
     name: "Poeta",
-    tag: "NLP",
+    tag: "AI tool",
     blurb:
       "A local-first writing desk for rap and poetry that surfaces phonetically accurate rhymes as you type. Portuguese runs through a from-scratch phonetic engine (stress detection, nasal vowels, the lot); English comes from the CMU Pronouncing Dictionary. Optional AI line suggestions, all in your browser.",
     tech: ["Next.js", "TypeScript", "TipTap", "OpenRouter"],
     img: "/images/projects/poeta.png",
     live: "https://poeta.zf4ke.me",
     code: "https://github.com/zF4ke/poeta",
-  },
-  {
-    name: "Traveller",
-    tag: "Game engine",
-    blurb:
-      "A multiplayer RPG played inside Discord where decrypting ciphers is the core mechanic. A platform-agnostic game engine with zero Discord imports, data-driven content, swappable storage, and a Next.js authoring dashboard. Its test suite plays entire quests in under a second.",
-    tech: ["TS monorepo", "MongoDB", "discord.js", "Next.js"],
-    isPrivate: true,
   },
   {
     name: "Buckshot Roulette Solver",
@@ -144,6 +136,14 @@ const FEATURED: Project[] = [
     img: "/images/projects/buckshot.png",
     download: "https://github.com/zF4ke/Buckshot-Roulette-Solver#for-players",
     code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
+  },
+  {
+    name: "Traveller",
+    tag: "Game engine",
+    blurb:
+      "A multiplayer RPG played inside Discord where decrypting ciphers is the core mechanic. A platform-agnostic game engine with zero Discord imports, data-driven content, swappable storage, and a Next.js authoring dashboard. Its test suite plays entire quests in under a second.",
+    tech: ["TS monorepo", "MongoDB", "discord.js", "Next.js"],
+    isPrivate: true,
   },
   {
     name: "Neuroevolution",
@@ -502,7 +502,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
             )}
             {p.isPrivate && (
               <span className="inline-flex items-center font-jetbrains text-[12px] text-zinc-500">
-                private repo, available on request
+                private repo
               </span>
             )}
           </div>
