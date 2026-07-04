@@ -49,6 +49,7 @@ type Project = {
   tech: string[];
   img?: string;
   live?: string;
+  download?: string;
   code?: string;
   isPrivate?: boolean;
 };
@@ -141,6 +142,7 @@ const FEATURED: Project[] = [
       "A desktop companion for the game Buckshot Roulette. You log what is on the table and a memoized expectimax engine plays every branch of the round to the end, then calls the move with the best expected outcome, the live odds, and a one-line reason, usually within a few milliseconds. No account, runs fully offline.",
     tech: ["Electron", "React", "TypeScript", "Python"],
     img: "/images/projects/buckshot.png",
+    download: "https://github.com/zF4ke/Buckshot-Roulette-Solver/releases",
     code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
   },
   {
@@ -307,6 +309,17 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
               Live <span aria-hidden="true">↗</span>
             </a>
           )}
+          {p.download && (
+            <a
+              href={p.download}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 font-500 text-accent-300 hover:text-accent-400 transition-colors"
+            >
+              Download <span aria-hidden="true">↗</span>
+            </a>
+          )}
           {p.code && (
             <a
               href={p.code}
@@ -370,6 +383,17 @@ function ProjectRow({ p, onOpen }: { p: Project; onOpen: () => void }) {
               className="font-500 text-accent-300 transition-colors hover:text-accent-400"
             >
               Live
+            </a>
+          )}
+          {p.download && (
+            <a
+              href={p.download}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="font-500 text-accent-300 transition-colors hover:text-accent-400"
+            >
+              Download
             </a>
           )}
           {p.code && (
@@ -454,6 +478,16 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
                 className="btn-motion inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-2.5 font-500 text-white hover:bg-accent-400"
               >
                 Open live demo <span aria-hidden="true">↗</span>
+              </a>
+            )}
+            {p.download && (
+              <a
+                href={p.download}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-motion inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-2.5 font-500 text-white hover:bg-accent-400"
+              >
+                Download <span aria-hidden="true">↗</span>
               </a>
             )}
             {p.code && (
