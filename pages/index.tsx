@@ -82,7 +82,7 @@ const FEATURED: Project[] = [
   },
   {
     name: "Modern Bazaar",
-    umbrella: "Finance",
+    umbrella: "Fintech",
     tag: "Full-stack",
     blurb:
       "An enterprise-grade market analyzer for a live game economy. A Spring Boot ingestion backend polls and compacts market data, a Next.js dashboard surfaces real-time analytics and trading strategies, all wired with production-style observability.",
