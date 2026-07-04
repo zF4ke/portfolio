@@ -142,7 +142,7 @@ const FEATURED: Project[] = [
       "A desktop companion for the game Buckshot Roulette. You log what is on the table and a memoized expectimax engine plays every branch of the round to the end, then calls the move with the best expected outcome, the live odds, and a one-line reason, usually within a few milliseconds. No account, runs fully offline.",
     tech: ["Electron", "React", "TypeScript", "Python"],
     img: "/images/projects/buckshot.png",
-    download: "https://github.com/zF4ke/Buckshot-Roulette-Solver/releases",
+    download: "https://github.com/zF4ke/Buckshot-Roulette-Solver#for-players",
     code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
   },
   {
