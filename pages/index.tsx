@@ -88,7 +88,7 @@ const FEATURED: Project[] = [
       "An enterprise-grade market analyzer for a live game economy. A Spring Boot ingestion backend polls and compacts market data, a Next.js dashboard surfaces real-time analytics and trading strategies, all wired with production-style observability.",
     tech: ["Spring Boot", "Next.js", "PostgreSQL", "Grafana", "Docker"],
     img: "/images/projects/modern-bazaar.png",
-    live: "https://modernbazaar.zf4ke.me/",
+    live: "https://www.modernbazaar.dev/",
     code: "https://github.com/zF4ke/ModernBazaar",
   },
   {
