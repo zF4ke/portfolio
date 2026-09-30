@@ -1,0 +1,84 @@
+.control {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 8px;
+  transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1), color 160ms ease, background-color 160ms ease;
+}
+
+.control:hover:not(:disabled) {
+  background: rgba(139, 145, 251, 0.08);
+  color: #b6b9fd;
+  transform: translateY(-1px) scale(1.06);
+}
+
+.control:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.volumeControl { width: 32px; }
+.control:disabled { opacity: 0.35; cursor: default; }
+
+.slider {
+  display: block;
+  height: 4px;
+  appearance: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.slider:focus-visible { outline: 2px solid #8b91fb; outline-offset: 5px; }
+.slider::-webkit-slider-thumb {
+  width: 10px;
+  height: 10px;
+  appearance: none;
+  border-radius: 50%;
+  background: #b6b9fd;
+  transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: #b6b9fd;
+}
+.slider:hover::-webkit-slider-thumb,
+.slider:focus-visible::-webkit-slider-thumb { transform: scale(1.25); }
+.slider:disabled { opacity: 0.4; cursor: default; }
+.track { animation: track-in 240ms cubic-bezier(0.16, 1, 0.3, 1); }
+
+.volumeReveal {
+  position: absolute;
+  z-index: 1;
+  bottom: calc(100% + var(--volume-popover-gap, 18px));
+  left: 50%;
+  width: 176px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: #16151e;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 6px) scale(0.97);
+  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 180ms ease, visibility 0s linear 180ms;
+}
+.volumeReveal[data-open="true"] { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0) scale(1); transition-delay: 0s; }
+.volumeInner { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.spinner { width: 22px; height: 22px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 700ms linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes track-in {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control, .slider::-webkit-slider-thumb, .volumeReveal { transition: none; }
+  .control:hover:not(:disabled), .control:active:not(:disabled),
+  .slider:hover::-webkit-slider-thumb, .slider:focus-visible::-webkit-slider-thumb { transform: none; }
+  .spinner, .track { animation: none; }
+}

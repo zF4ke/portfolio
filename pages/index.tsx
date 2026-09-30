@@ -2,7 +2,8 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
-import Player from "../components/Player";
+import FloatingPlayer from "../components/FloatingPlayer";
+import ProjectsDisclosure from "../components/ProjectsDisclosure";
 import Emoji from "../components/Emoji";
 import songs from "../public/musics/songs.json";
 
@@ -44,12 +45,14 @@ type Song = {
 
 type Project = {
   name: string;
+  icon: string;
   umbrella?: string;
   tag: string;
   blurb: string;
   tech: string[];
   img?: string;
   live?: string;
+  liveLabel?: string;
   download?: string;
   code?: string;
   isPrivate?: boolean;
@@ -71,42 +74,46 @@ const DEV = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
 const FEATURED: Project[] = [
   {
     name: "Sophia",
+    icon: "/images/project-icons/sophia.svg",
     umbrella: "AI",
     tag: "AI agent",
     blurb:
-      "A conversational AI agent for Discord that searches your server history and acts on it in plain language, with admin approval on every change. 33 tools running in an agentic loop, with budget limits and role-based access baked in.",
-    tech: ["TypeScript", "discord.js", "LLM tools", "SQLite", "Vitest"],
+      "A self-hosted AI agent for Discord that plans and carries out multi-step tasks. She researches server history and the web, writes and runs code in an isolated Docker workspace, analyzes files and media, and remembers useful context between conversations. You can redirect her mid-task, resume saved work, and schedule follow-ups. She also drafts reusable skills from completed work, with actions governed by explicit user permissions.",
+    tech: ["TypeScript", "discord.js", "LLM tools", "SQLite", "Docker"],
     img: "/images/projects/sophia.png",
     live: "https://zf4ke.github.io/sophia",
+    liveLabel: "Website & docs",
     code: "https://github.com/zF4ke/sophia",
   },
   {
-    name: "Modern Bazaar",
-    umbrella: "Fintech",
+    name: "ModernBazaar",
+    icon: "/images/project-icons/modernbazaar.svg",
+    umbrella: "Web",
     tag: "Full-stack",
     blurb:
-      "An enterprise-grade market analyzer for a live game economy. A Spring Boot ingestion backend polls and compacts market data, a Next.js dashboard surfaces real-time analytics and trading strategies, all wired with production-style observability.",
+      "A market analytics platform for Hypixel SkyBlock with live price and volume tracking, historical charts, and trading opportunity scoring. A Java/Spring Boot backend and TypeScript/Next.js dashboard run with PostgreSQL, Docker, and Prometheus/Grafana monitoring. Includes Auth0 login and Stripe subscriptions.",
     tech: ["Spring Boot", "Next.js", "PostgreSQL", "Grafana", "Docker"],
     img: "/images/projects/modern-bazaar.png",
-    live: "https://www.modernbazaar.dev/",
     code: "https://github.com/zF4ke/ModernBazaar",
   },
   {
     name: "ATLAS Onboard Video & SLAM",
+    icon: "/images/link-icons/aerotec.png",
     umbrella: "Robotics",
     tag: "Drones",
     blurb:
-      "Onboard software and a ground-station app for the ATLAS drone. A terminal menu on the ground drives a low-latency video downlink over WifiBroadcast (with a ZeroTier RTSP backup), onboard ORB-SLAM3 on a Jetson with an Intel RealSense, and realtime YOLO11n person detection through DeepStream and TensorRT, each toggled live over MAVLink. A supervisor keeps the modes running and restarts any that die.",
+      "Onboard and ground-station software for the ATLAS drone, with low-latency WifiBroadcast video and a selectable RTSP backup over ZeroTier. Runs RealSense-based ORB-SLAM3 and YOLO person detection through DeepStream/TensorRT on a Jetson. MAVLink controls each mode independently, while a supervisor restarts failed processes.",
     tech: ["Python", "GStreamer", "ORB-SLAM3", "TensorRT", "MAVLink"],
     img: "/images/projects/atlas-swai.png",
     isPrivate: true,
   },
   {
     name: "Timebox",
+    icon: "/images/project-icons/timebox.png",
     umbrella: "AI",
     tag: "Multi-agent",
     blurb:
-      "A desktop app where five AI agents draft, critique and vote on your weekly schedule under a quorum you control, then export it straight to your calendar. It ships with its own benchmark harness for comparing models on cost and quality.",
+      "A desktop scheduler that turns plain-language tasks and deadlines into a weekly study plan. Five specialist AI agents critique and vote on drafts, while a planner revises the schedule toward a configurable approval quorum. Exports calendar files and includes a benchmark suite for comparing model quality and cost.",
     tech: ["Electron", "React", "TypeScript", "OpenRouter"],
     img: "/images/projects/timebox.png",
     live: "https://zf4ke.github.io/timebox",
@@ -114,54 +121,84 @@ const FEATURED: Project[] = [
   },
   {
     name: "Book2English",
+    icon: "/images/project-icons/book2english.svg",
     umbrella: "AI",
     tag: "AI tool",
     blurb:
-      "Drop in any PDF and read it in your language with the original layout untouched. It pulls each page's text geometry with pdf.js, translates the blocks through OpenRouter, and fits the result back in place, prefetching pages ahead so you rarely wait. Everything runs in your browser.",
+      "A PDF reader that translates text into English or Portuguese and fits it back into the original page layout, preserving illustrations and columns. PDF rendering and translation caching happen in the browser; translation uses OpenRouter with your own API key.",
     tech: ["Next.js", "TypeScript", "pdf.js", "OpenRouter"],
     img: "/images/projects/book2english.png",
     live: "https://book2english.zf4ke.me",
     code: "https://github.com/zF4ke/Book2English",
   },
   {
+    name: "Buckshot Roulette Solver",
+    icon: "/images/project-icons/buckshot.png",
+    umbrella: "Games",
+    tag: "Game solver",
+    blurb:
+      "An offline desktop solver for Buckshot Roulette. Enter the visible round state and a Python engine uses memoized expectimax with time-bounded iterative deepening to recommend a move, estimate its odds, and explain the choice. Electron and React provide the interface.",
+    tech: ["Electron", "React", "TypeScript", "Python"],
+    img: "/images/projects/buckshot.png",
+    download: "https://github.com/zF4ke/Buckshot-Roulette-Solver/releases",
+    code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
+  },
+  {
+    name: "Traveller",
+    icon: "/images/project-icons/traveller.png",
+    umbrella: "Games",
+    tag: "Game engine",
+    blurb:
+      "A multiplayer mystery RPG played through Discord, where solving ciphers drives the story and player progression. A platform-independent TypeScript engine runs data-driven campaigns, while a Next.js dashboard supports content authoring and playable previews.",
+    tech: ["TS monorepo", "MongoDB", "discord.js", "Next.js"],
+    isPrivate: true,
+  },
+];
+
+const EXTRA_PROJECTS: Project[] = [
+  {
     name: "Poeta",
+    icon: "/images/project-icons/poeta.svg",
     umbrella: "AI",
     tag: "NLP",
     blurb:
-      "A local-first writing desk for rap and poetry that surfaces phonetically accurate rhymes as you type. Portuguese runs through a from-scratch phonetic engine (stress detection, nasal vowels, the lot); English comes from the CMU Pronouncing Dictionary. Optional AI line suggestions, all in your browser.",
+      "A writing app for rap and poetry with a custom Portuguese phonetic rhyme engine and pronunciation-based English rhymes. Suggests perfect and near rhymes, tracks rhyme schemes and syllable counts, and saves drafts locally without an account. Optional AI helps continue or rewrite lines.",
     tech: ["Next.js", "TypeScript", "TipTap", "OpenRouter"],
     img: "/images/projects/poeta.png",
     live: "https://poeta.zf4ke.me",
     code: "https://github.com/zF4ke/poeta",
   },
   {
-    name: "Buckshot Roulette Solver",
-    umbrella: "Games",
-    tag: "Game solver",
+    name: "PalmaSat / MoVe",
+    icon: "/images/project-icons/cansat.svg",
+    umbrella: "Robotics",
+    tag: "Flight software",
     blurb:
-      "A desktop companion for the game Buckshot Roulette. You log what is on the table and a memoized expectimax engine plays every branch of the round to the end, then calls the move with the best expected outcome, the live odds, and a one-line reason, usually within a few milliseconds. No account, runs fully offline.",
-    tech: ["Electron", "React", "TypeScript", "Python"],
-    img: "/images/projects/buckshot.png",
-    download: "https://github.com/zF4ke/Buckshot-Roulette-Solver#for-players",
-    code: "https://github.com/zF4ke/Buckshot-Roulette-Solver",
+      "Python flight software for MoVe, our entry in the 9th edition of CanSat Portugal. Handles sensor readings, camera capture, onboard commands, and radio telemetry for a can-sized satellite.",
+    tech: ["Python", "Sensors", "Radio telemetry"],
+    code: "https://github.com/zF4ke/cansat-palmasat",
   },
   {
-    name: "Traveller",
-    umbrella: "Games",
-    tag: "Game engine",
-    blurb:
-      "A multiplayer RPG played inside Discord where decrypting ciphers is the core mechanic. A platform-agnostic game engine with zero Discord imports, data-driven content, swappable storage, and a Next.js authoring dashboard. Its test suite plays entire quests in under a second.",
-    tech: ["TS monorepo", "MongoDB", "discord.js", "Next.js"],
-    isPrivate: true,
-  },
-  {
-    name: "Neuroevolution",
+    name: "Neuroevolution Flappy Bird",
+    icon: "/images/project-icons/neuroevolution.svg",
     umbrella: "AI",
-    tag: "AI / ML",
+    tag: "Neuroevolution",
     blurb:
-      "Flappy Bird that teaches itself to fly. Neural networks evolved with a genetic algorithm, visualized generation by generation in the browser so you can watch the population get better in real time.",
-    tech: ["JavaScript", "Neural nets", "Genetic algorithms"],
+      "A JavaScript Flappy Bird simulation where a genetic algorithm evolves neural-network controllers. Each generation uses survival scores to select and mutate networks for the next population.",
+    tech: ["JavaScript", "Neural networks", "Genetic algorithms"],
     code: "https://github.com/zF4ke/neuroevolution-flappy-bird",
+  },
+  {
+    name: "2D game tutorial",
+    icon: "/images/project-icons/jogo2d.svg",
+    umbrella: "Games",
+    tag: "Game development",
+    blurb:
+      "Source code for my YouTube series on building a 2D fighting game from scratch in vanilla JavaScript, including canvas rendering, sprite animation, and player controls.",
+    tech: ["JavaScript", "Canvas", "Sprite animation"],
+    live: "https://youtube.com/@zFake",
+    liveLabel: "YouTube",
+    code: "https://github.com/zF4ke/jogo2d-javascript",
   },
 ];
 
@@ -172,7 +209,7 @@ const EXPERIENCE = [
     period: "2025 to now",
     url: "https://aerotec.pt/atlas",
     Icon: FaPlaneUp,
-    note: "I build computer vision and autonomy software for the only Portuguese university team flying fully autonomous drones. Real-time video pipelines with GStreamer and ROS 2, plus AI inference for object detection.",
+    note: "I build onboard and ground-station software for autonomous drones. My work includes GStreamer/ROS 2 video pipelines, Jetson-based SLAM and person detection, and MAVLink control of independent onboard subsystems.",
   },
   {
     role: "Programming content creator",
@@ -194,44 +231,47 @@ const EXPERIENCE = [
 
 const SKILLS = [
   {
-    label: "Web",
+    label: "Web & desktop",
     items: [
       { name: "JavaScript", icon: `${DEV}/javascript/javascript-original.svg` },
       { name: "TypeScript", icon: `${DEV}/typescript/typescript-original.svg` },
       { name: "React", icon: `${DEV}/react/react-original.svg` },
       { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs/white" },
-      { name: "Node.js", icon: `${DEV}/nodejs/nodejs-original.svg` },
+      { name: "Electron", icon: `${DEV}/electron/electron-original.svg` },
       { name: "Tailwind", icon: `${DEV}/tailwindcss/tailwindcss-original.svg` },
     ],
   },
   {
-    label: "AI & Data",
+    label: "AI & computer vision",
     items: [
       { name: "Python", icon: `${DEV}/python/python-original.svg` },
       { name: "PyTorch", icon: `${DEV}/pytorch/pytorch-original.svg` },
       { name: "OpenCV", icon: `${DEV}/opencv/opencv-original.svg` },
-      { name: "Jupyter", icon: `${DEV}/jupyter/jupyter-original.svg` },
       { name: "LLM agents", icon: null },
+      { name: "DeepStream", icon: "https://cdn.simpleicons.org/nvidia/76B900" },
+      { name: "TensorRT", icon: "https://cdn.simpleicons.org/nvidia/76B900" },
     ],
   },
   {
-    label: "Backend",
+    label: "Backend & data",
     items: [
       { name: "Java", icon: `${DEV}/java/java-original.svg` },
       { name: "Spring Boot", icon: `${DEV}/spring/spring-original.svg` },
       { name: "PostgreSQL", icon: `${DEV}/postgresql/postgresql-original.svg` },
       { name: "MongoDB", icon: `${DEV}/mongodb/mongodb-original.svg` },
-      { name: "Firebase", icon: `${DEV}/firebase/firebase-plain.svg` },
+      { name: "Node.js", icon: `${DEV}/nodejs/nodejs-original.svg` },
+      { name: "SQLite", icon: `${DEV}/sqlite/sqlite-original.svg` },
     ],
   },
   {
-    label: "Tools",
+    label: "Tools & robotics",
     items: [
       { name: "Git", icon: `${DEV}/git/git-original.svg` },
       { name: "Linux", icon: `${DEV}/linux/linux-original.svg` },
       { name: "Docker", icon: `${DEV}/docker/docker-original.svg` },
       { name: "ROS 2", icon: "https://cdn.simpleicons.org/ros/white" },
       { name: "GStreamer", icon: null },
+      { name: "MAVLink", icon: null },
     ],
   },
 ];
@@ -249,9 +289,7 @@ const TERMINAL = [
   ["whoami", "Pedro Silva"],
   ["role", "Software & AI Developer"],
   ["studying", "MSc CSE @ IST"],
-  ["stack", "TypeScript · Python · Java"],
   ["focus", "AI agents, full-stack web"],
-  ["uptime", "coding since age 11"],
 ];
 
 function TechChip({ name, icon }: { name: string; icon: string | null }) {
@@ -265,6 +303,23 @@ function TechChip({ name, icon }: { name: string; icon: string | null }) {
       )}
       {name}
     </span>
+  );
+}
+
+function ProjectIcon({ p }: { p: Project }) {
+  return (
+    /* eslint-disable-next-line @next/next/no-img-element */
+    <img src={p.icon} alt="" className="mr-2 inline-block h-5 w-5 shrink-0 object-contain align-[-0.2em]" loading="lazy" />
+  );
+}
+
+function BioLink({ href, icon, children }: { href: string; icon: string; children: string }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 text-zinc-200">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={icon} alt="" className="h-4 w-4 object-contain" loading="lazy" />
+      <span className="ulink">{children}</span>
+    </a>
   );
 }
 
@@ -316,8 +371,8 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
         </div>
       </div>
       <div className="p-5">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="text-lg font-600 text-white">{p.name}</h3>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <h3 className="inline-flex items-center text-lg font-600 text-white"><ProjectIcon p={p} />{p.name}</h3>
           <div className="shrink-0">
             <TagPills umbrella={p.umbrella} tag={p.tag} size="md" />
           </div>
@@ -332,7 +387,7 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
               onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center gap-1.5 font-500 text-accent-300 hover:text-accent-400 transition-colors"
             >
-              Live <span aria-hidden="true">↗</span>
+              {p.liveLabel || "Website"} <span aria-hidden="true">↗</span>
             </a>
           )}
           {p.download && (
@@ -386,7 +441,7 @@ function ProjectRow({ p, onOpen }: { p: Project; onOpen: () => void }) {
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-display text-base font-600 text-white">{p.name}</h3>
+          <h3 className="font-display text-base font-600 text-white"><ProjectIcon p={p} />{p.name}</h3>
           <TagPills umbrella={p.umbrella} tag={p.tag} size="sm" />
         </div>
         <p className="mt-1 line-clamp-1 text-sm text-zinc-400">{p.blurb}</p>
@@ -406,7 +461,7 @@ function ProjectRow({ p, onOpen }: { p: Project; onOpen: () => void }) {
               onClick={(e) => e.stopPropagation()}
               className="font-500 text-accent-300 transition-colors hover:text-accent-400"
             >
-              Live
+              {p.liveLabel || "Website"}
             </a>
           )}
           {p.download && (
@@ -480,7 +535,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
         <ProjectThumb p={p} tall />
         <div className="p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-3">
-            <h3 className="font-display text-2xl font-700 text-white">{p.name}</h3>
+            <h3 className="inline-flex items-center font-display text-2xl font-700 text-white"><ProjectIcon p={p} />{p.name}</h3>
             <TagPills umbrella={p.umbrella} tag={p.tag} size="md" />
           </div>
           <p className="mt-4 leading-relaxed text-zinc-300">{p.blurb}</p>
@@ -499,7 +554,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
                 rel="noreferrer"
                 className="btn-motion inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-2.5 font-500 text-white hover:bg-accent-400"
               >
-                Open live demo <span aria-hidden="true">↗</span>
+                {p.liveLabel || "Website"} <span aria-hidden="true">↗</span>
               </a>
             )}
             {p.download && (
@@ -568,6 +623,9 @@ const Home = ({ songs, repos }: Props) => {
     "poeta",
     "traveller",
     "neuroevolution-flappy-bird",
+    "buckshot-roulette-solver",
+    "cansat-palmasat",
+    "jogo2d-javascript",
     "portfolio",
   ]);
   const more = (repos || []).filter((r) => !featuredNames.has(r.name.toLowerCase())).slice(0, 10);
@@ -635,8 +693,8 @@ const Home = ({ songs, repos }: Props) => {
               </h1>
               <p className="reveal mt-6 max-w-lg text-lg leading-relaxed text-zinc-400">
                 I&apos;m Pedro, a {AGE} year old developer from Portugal <Emoji symbol="🇵🇹" />. I work on
-                AI agents, full-stack web, and software for autonomous drones, and I like shipping things
-                that feel effortless to use.
+                AI agents, full-stack web, and software for autonomous drones. I like building tools
+                that feel effortless to use and help people make smarter decisions.
               </p>
               <div className="reveal mt-8 flex flex-wrap items-center gap-3">
                 <a
@@ -699,28 +757,27 @@ const Home = ({ songs, repos }: Props) => {
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// about"}</p>
             <div className="reveal mt-5 space-y-5 text-lg leading-relaxed text-zinc-400">
               <p>
-                I started coding when I was 11 and never really stopped. These days I&apos;m finishing my
-                Master&apos;s in Computer Science and Engineering at IST, after my Bachelor&apos;s at FCUL,
-                and most of my energy goes into AI agents and full-stack web.
+                I&apos;m doing a Master&apos;s in Computer Science and Engineering at IST, after my
+                Bachelor&apos;s at FCUL. Most of what I build involves AI agents or full-stack web.
               </p>
               <p>
-                I like problems that sit between research and a real product: things that have to be both
-                clever and genuinely usable. That is what pulled me into autonomous drones with{" "}
-                <a href="https://aerotec.pt/atlas" target="_blank" rel="noreferrer" className="ulink text-zinc-200">
+                I like working at the edge of research and engineering, taking an idea and figuring
+                out how to get it working in practice. That&apos;s part of what I do at{" "}
+                <BioLink href="https://aerotec.pt/atlas" icon="/images/link-icons/aerotec.png">
                   AeroTec ATLAS
-                </a>
-                , and what keeps me building side projects most weekends.
+                </BioLink>
+                , writing software for autonomous drones, and in my own projects.
               </p>
               <p>
                 Outside of code I solve{" "}
-                <a href="https://enigmatics.org/profile/zf4ke" target="_blank" rel="noreferrer" className="ulink text-zinc-200">
+                <BioLink href="https://enigmatics.org/profile/zf4ke" icon="/images/link-icons/puzzles.png">
                   puzzles
-                </a>{" "}
+                </BioLink>{" "}
                 and ARGs, and I run a{" "}
-                <a href="https://youtube.com/@zFake" target="_blank" rel="noreferrer" className="ulink text-zinc-200">
+                <BioLink href="https://youtube.com/@zFake" icon="/images/link-icons/youtube.png">
                   YouTube channel
-                </a>{" "}
-                where I teach coding and math. Explaining something is still the best way I know to learn it.
+                </BioLink>{" "}
+                where I share what I learn about coding, science and math.
               </p>
             </div>
           </div>
@@ -732,8 +789,7 @@ const Home = ({ songs, repos }: Props) => {
             <p className="reveal font-jetbrains text-sm text-accent-300">{"// projects"}</p>
             <h2 className="reveal mt-3 font-display text-3xl font-700 tracking-tight text-white">Things I&apos;ve built</h2>
             <p className="reveal mt-3 max-w-xl text-zinc-400">
-              A few projects I am proud of. Click any of them for a closer look. Five have a live demo you
-              can poke at right now.
+              Click a project for the full description and links.
             </p>
 
             {/* two flagships as large image-forward cards */}
@@ -750,24 +806,31 @@ const Home = ({ songs, repos }: Props) => {
               ))}
             </div>
 
-            {more.length > 0 && (
-              <div className="reveal mt-10">
-                <p className="font-jetbrains text-sm text-zinc-500">{"// more on github"}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {more.map((r) => (
-                    <a
-                      key={r.name}
-                      href={r.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="rounded-lg border border-line bg-surface/60 px-3 py-1.5 font-jetbrains text-[12px] text-zinc-400 hover:border-accent-500/40 hover:text-white transition-colors"
-                    >
-                      {r.name}
-                    </a>
-                  ))}
-                </div>
+            <ProjectsDisclosure>
+              <div className="mt-6 divide-y divide-line border-t border-line">
+                {EXTRA_PROJECTS.map((p) => (
+                  <ProjectRow key={p.name} p={p} onOpen={() => setSelected(p)} />
+                ))}
               </div>
-            )}
+              {more.length > 0 && (
+                <div className="mt-10">
+                  <p className="font-jetbrains text-sm text-zinc-500">{"// more on github"}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {more.map((r) => (
+                      <a
+                        key={r.name}
+                        href={r.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="rounded-lg border border-line bg-surface/60 px-3 py-1.5 font-jetbrains text-[12px] text-zinc-400 hover:border-accent-500/40 hover:text-white transition-colors"
+                      >
+                        {r.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </ProjectsDisclosure>
           </div>
         </section>
 
@@ -891,9 +954,7 @@ const Home = ({ songs, repos }: Props) => {
       </footer>
 
       {/* floating music player, an easter egg from the old site */}
-      <div className="fixed bottom-4 right-4 z-40 hidden rounded-xl border border-line bg-surface/90 px-3 py-2 backdrop-blur md:block">
-        <Player songs={songs} />
-      </div>
+      <FloatingPlayer songs={songs} />
 
       {selected && <ProjectModal p={selected} onClose={() => setSelected(null)} />}
     </div>

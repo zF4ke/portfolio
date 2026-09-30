@@ -1,0 +1,17 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="7" fill="#2f251a" />
+  <!-- pages -->
+  <path d="M16 10.6 C 12 8.6, 7.4 8.6, 5 9.9 L 5 22.1 C 7.4 20.8, 12 20.8, 16 22.8 Z" fill="#fdf4e6" />
+  <path d="M16 10.6 C 20 8.6, 24.6 8.6, 27 9.9 L 27 22.1 C 24.6 20.8, 20 20.8, 16 22.8 Z" fill="#fdf4e6" />
+  <!-- faint text lines -->
+  <g stroke="#d8c2a4" stroke-width="0.9" stroke-linecap="round" fill="none">
+    <path d="M7.4 12.6 C 10 12, 12.8 12.1, 14.3 12.8" />
+    <path d="M7.4 15.0 C 10 14.4, 12.8 14.5, 14.3 15.2" />
+    <path d="M7.4 17.4 C 10 16.8, 12.8 16.9, 14.3 17.6" />
+    <path d="M24.6 12.6 C 22 12, 19.2 12.1, 17.7 12.8" />
+    <path d="M24.6 15.0 C 22 14.4, 19.2 14.5, 17.7 15.2" />
+    <path d="M24.6 17.4 C 22 16.8, 19.2 16.9, 17.7 17.6" />
+  </g>
+  <!-- spine -->
+  <path d="M16 10.6 L 16 22.8" stroke="#a4573f" stroke-width="1.7" stroke-linecap="round" />
+</svg>
